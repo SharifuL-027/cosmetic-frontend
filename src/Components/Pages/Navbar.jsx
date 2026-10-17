@@ -36,7 +36,7 @@ export default function Navbar() {
 
       {/* Main Navbar (এটি Sticky, তাই স্ক্রল করলে স্ক্রিনের উপরে আটকে থাকবে) */}
       <header className={`w-full sticky top-0 z-50 bg-white transition-all duration-300 ${isScrolled ? 'shadow-md' : 'border-b border-gray-100'}`}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? 'h-16' : 'h-24'}`}>
             
             {/* Mobile Menu Button */}
@@ -47,11 +47,16 @@ export default function Navbar() {
             </div>
 
             {/* Logo */}
-            <div className="flex-1 lg:flex-none flex justify-center lg:justify-start">
-              <Link to="/" className="text-4xl lg:text-5xl font-black italic tracking-tighter text-black font-['Arial_Black',sans-serif] hover:scale-105 transition-transform duration-300">
-                WBB
-              </Link>
-            </div>
+          <div className="flex-1 lg:flex-none flex justify-center lg:justify-start">
+            {/* <Link> er bodole <a> tag use kora holo jate click korle page full refresh ney */}
+            <a href="/" className="hover:scale-105 transition-transform duration-300 block">
+              <img 
+                src="https://res.cloudinary.com/wtbwxhmc/image/upload/v1792236384/Elegant_WBB_Beauty_Emblem-removebg-preview_yul9xd.png" // Ekhane apnar logo er actual URL ba public folder er path diben
+                alt="WBB Logo" 
+                className="h-10 lg:h-20 w-auto " 
+              />
+            </a>
+          </div>
 
             {/* Desktop Navigation Links (Right Aligned) */}
             <div className="hidden lg:flex flex-1 justify-end h-full items-center gap-10">
