@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// ডামি ডায়নামিক ডেটা (ভবিষ্যতে এটি API থেকে আসবে)
 const categoryData = [
   {
     id: 1,
@@ -17,11 +16,10 @@ const categoryData = [
         id: 101,
         name: "It's Glow Prime Radiant Primer",
         price: "£6.50",
-        // ট্রান্সপারেন্ট ব্যাকগ্রাউন্ডের মতো প্রোডাক্ট ইমেজ
         image: "https://res.cloudinary.com/wtbwxhmc/image/upload/v1792229508/image.png_2K_20261017152946_c8jojw.jpg",
         rating: 5,
         reviews: 175,
-        shades: [] // প্রাইমারের কোনো শেড নেই
+        shades: [] 
       },
       {
         id: 102,
@@ -30,7 +28,7 @@ const categoryData = [
         image: "https://res.cloudinary.com/wtbwxhmc/image/upload/v1792231631/image.png_2K_20261017160340_gy7aw4.jpg",
         rating: 5,
         reviews: 13,
-        shades: ['#e5989b', '#d5bdaf', '#b56576', '#e56b6f'] // ব্লাশারের ৪টি কালার শেড
+        shades: ['#e5989b', '#d5bdaf', '#b56576', '#e56b6f']
       }
     ]
   }
@@ -44,86 +42,88 @@ export default function CategoryShowcase() {
         {categoryData.map((category, index) => (
           <div 
             key={category.id} 
-            // জোর-বিজোড় ইনডেক্স অনুযায়ী কভার ছবি একবার ডানে, একবার বামে থাকবে
-            className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-24 ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''} mb-24 last:mb-0`}
+            className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''} mb-24 last:mb-0`}
           >
             
-            {/* Left Side: Cover Image & Info */}
+            {/* Left Side: Cover Image (Strictly 1:1) & Info */}
             <motion.div 
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
               className="w-full lg:w-1/2 flex flex-col items-center text-center"
             >
-              <div className="w-full aspect-square md:aspect-[4/5] rounded-xl overflow-hidden mb-8">
+              {/* Image Container - aspect-square ensures 1:1 on ALL devices */}
+              <div className="w-full aspect-square overflow-hidden mb-6 group cursor-pointer relative">
                 <img 
                   src={category.cover.image} 
                   alt={category.cover.title} 
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
               </div>
-              <h2 className="text-2xl md:text-3xl font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif]">
+              
+              <h2 className="text-[28px] md:text-[32px] leading-none font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif]">
                 {category.cover.title}
               </h2>
-              <p className="text-sm md:text-base text-gray-700 mt-3 font-medium max-w-sm">
+              <p className="text-[14px] md:text-[15px] text-black mt-2.5 font-medium max-w-sm">
                 {category.cover.subtitle}
               </p>
             </motion.div>
 
             {/* Right Side: Products ("GET THE LOOK") */}
             <motion.div 
-              initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
+              initial={{ opacity: 0, x: index % 2 === 0 ? 40 : -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
               className="w-full lg:w-1/2 flex flex-col"
             >
-              <h2 className="text-2xl md:text-3xl font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif] mb-10 text-center lg:text-left">
+              <h2 className="text-[22px] md:text-[26px] font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif] mb-8 text-center lg:text-left">
                 {category.lookTitle}
               </h2>
 
-              <div className="grid grid-cols-2 gap-6 md:gap-12">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-10">
                 {category.products.map(product => (
                   <div key={product.id} className="flex flex-col items-center text-center group cursor-pointer">
                     
-                    {/* Product Image */}
-                    <Link to={`/product/${product.id}`} className="w-full aspect-[3/4] bg-white flex items-center justify-center p-4 mb-5 overflow-hidden relative">
+                    {/* Product Image - Light gray bg to make transparent products pop */}
+                    <Link to={`/product/${product.id}`} className="w-full aspect-square bg-[#F9F9F9] flex items-center justify-center p-6 mb-4 overflow-hidden relative">
                       <img 
                         src={product.image} 
                         alt={product.name} 
-                        className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500" 
+                        className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out drop-shadow-sm" 
                       />
                     </Link>
 
                     {/* Product Info */}
                     <Link to={`/product/${product.id}`}>
-                      <h3 className="text-xs sm:text-sm font-bold text-black mb-2 hover:text-[#CB006B] transition-colors tracking-wide">
+                      <h3 className="text-[13px] sm:text-[14px] font-bold text-black mb-1.5 hover:text-[#CB006B] transition-colors tracking-wide leading-snug">
                         {product.name}
                       </h3>
                     </Link>
-                    <span className="text-sm font-black text-black mb-3">
+                    
+                    <span className="text-[14px] font-black text-black mb-2.5">
                       {product.price}
                     </span>
 
                     {/* Stars & Reviews */}
-                    <div className="flex items-center gap-1 mb-4">
+                    <div className="flex items-center gap-[2px] mb-4">
                       {[...Array(5)].map((_, i) => (
                         <Star 
                           key={i} 
                           className={`w-3.5 h-3.5 ${i < product.rating ? 'fill-black text-black' : 'fill-gray-200 text-gray-200'}`} 
                         />
                       ))}
-                      <span className="text-[10px] text-gray-500 font-medium ml-1">{product.reviews} Reviews</span>
+                      <span className="text-[11px] text-gray-500 font-medium ml-1.5">{product.reviews} Reviews</span>
                     </div>
 
-                    {/* Color Shades (যদি থাকে) */}
+                    {/* Color Shades */}
                     {product.shades && product.shades.length > 0 && (
                       <div className="flex items-center justify-center gap-2 mt-auto">
                         {product.shades.map((color, i) => (
                           <div 
                             key={i} 
-                            className="w-4 h-4 rounded-full border border-gray-300 shadow-sm hover:scale-125 cursor-pointer transition-transform" 
+                            className="w-[18px] h-[18px] rounded-full shadow-sm hover:scale-110 cursor-pointer transition-transform" 
                             style={{ backgroundColor: color }}
                             title="Color Shade"
                           ></div>
