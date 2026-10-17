@@ -36,73 +36,74 @@ const categoryData = [
 
 export default function CategoryShowcase() {
   return (
-    <section className="w-full bg-white py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-[1300px] mx-auto">
+    <section className="w-full bg-white py-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto">
         
         {categoryData.map((category, index) => (
           <div 
             key={category.id} 
-            className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''} mb-24 last:mb-0`}
+            className={`flex flex-col lg:flex-row items-start gap-12 lg:gap-20 ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''} mb-24 last:mb-0`}
           >
             
-            {/* Left Side: Cover Image (Strictly 1:1) & Info */}
+            {/* Left Side: Cover Image & Text */}
             <motion.div 
-              initial={{ opacity: 0, x: index % 2 === 0 ? -40 : 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="w-full lg:w-1/2 flex flex-col items-center text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6 }}
+              className="w-full lg:w-[45%] flex flex-col items-center text-center"
             >
-              {/* Image Container - aspect-square ensures 1:1 on ALL devices */}
-              <div className="w-full aspect-square overflow-hidden mb-6 group cursor-pointer relative">
+              {/* Image Container - Strictly 1:1 Aspect Ratio everywhere */}
+              <div className="w-full aspect-square rounded-[20px] overflow-hidden mb-6 shadow-sm">
                 <img 
                   src={category.cover.image} 
                   alt={category.cover.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out"
                 />
               </div>
               
-              <h2 className="text-[28px] md:text-[32px] leading-none font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif]">
+              <h2 className="text-2xl sm:text-[28px] leading-tight font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif]">
                 {category.cover.title}
               </h2>
-              <p className="text-[14px] md:text-[15px] text-black mt-2.5 font-medium max-w-sm">
+              <p className="text-[13px] sm:text-[14px] text-gray-800 mt-2.5 font-medium max-w-[90%]">
                 {category.cover.subtitle}
               </p>
             </motion.div>
 
             {/* Right Side: Products ("GET THE LOOK") */}
             <motion.div 
-              initial={{ opacity: 0, x: index % 2 === 0 ? 40 : -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-              className="w-full lg:w-1/2 flex flex-col"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="w-full lg:w-[55%] flex flex-col pt-0 lg:pt-8"
             >
-              <h2 className="text-[22px] md:text-[26px] font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif] mb-8 text-center lg:text-left">
+              <h2 className="text-2xl sm:text-[28px] font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif] mb-12 text-center lg:text-left">
                 {category.lookTitle}
               </h2>
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-10">
+              <div className="grid grid-cols-2 gap-6 sm:gap-10">
                 {category.products.map(product => (
-                  <div key={product.id} className="flex flex-col items-center text-center group cursor-pointer">
+                  <div key={product.id} className="flex flex-col items-center text-center group">
                     
-                    {/* Product Image - Light gray bg to make transparent products pop */}
-                    <Link to={`/product/${product.id}`} className="w-full aspect-square bg-[#F9F9F9] flex items-center justify-center p-6 mb-4 overflow-hidden relative">
+                    {/* Clean Product Image Area without borders */}
+                    <Link to={`/product/${product.id}`} className="w-full aspect-[4/5] flex items-center justify-center mb-5 relative">
                       <img 
                         src={product.image} 
                         alt={product.name} 
-                        className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out drop-shadow-sm" 
+                        className="max-w-[85%] max-h-[85%] object-contain group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500 ease-out drop-shadow-md" 
                       />
                     </Link>
 
-                    {/* Product Info */}
+                    {/* Product Title */}
                     <Link to={`/product/${product.id}`}>
-                      <h3 className="text-[13px] sm:text-[14px] font-bold text-black mb-1.5 hover:text-[#CB006B] transition-colors tracking-wide leading-snug">
+                      <h3 className="text-[13px] sm:text-[14px] font-medium text-black mb-1.5 hover:text-[#CB006B] transition-colors tracking-wide leading-relaxed">
                         {product.name}
                       </h3>
                     </Link>
                     
-                    <span className="text-[14px] font-black text-black mb-2.5">
+                    {/* Price */}
+                    <span className="text-[15px] font-black text-black mb-3">
                       {product.price}
                     </span>
 
@@ -114,18 +115,17 @@ export default function CategoryShowcase() {
                           className={`w-3.5 h-3.5 ${i < product.rating ? 'fill-black text-black' : 'fill-gray-200 text-gray-200'}`} 
                         />
                       ))}
-                      <span className="text-[11px] text-gray-500 font-medium ml-1.5">{product.reviews} Reviews</span>
+                      <span className="text-[10px] sm:text-[11px] text-gray-500 font-medium ml-1.5">{product.reviews} Reviews</span>
                     </div>
 
-                    {/* Color Shades */}
+                    {/* Color Shades Matches screenshot style */}
                     {product.shades && product.shades.length > 0 && (
                       <div className="flex items-center justify-center gap-2 mt-auto">
                         {product.shades.map((color, i) => (
                           <div 
                             key={i} 
-                            className="w-[18px] h-[18px] rounded-full shadow-sm hover:scale-110 cursor-pointer transition-transform" 
+                            className="w-4 h-4 rounded-full border border-gray-200 shadow-sm hover:scale-125 cursor-pointer transition-transform" 
                             style={{ backgroundColor: color }}
-                            title="Color Shade"
                           ></div>
                         ))}
                       </div>

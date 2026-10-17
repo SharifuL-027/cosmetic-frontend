@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// ক্লিন প্রোডাক্ট ডেটা (শুধুমাত্র আইডি, নাম এবং ছবি)
 const bestProducts = [
   {
     id: 1,
@@ -37,7 +36,7 @@ export default function LuxuryBeauty() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-[#E45B83] text-xs font-bold tracking-[0.2em] uppercase mb-4"
+            className="text-[#CB006B] text-xs font-bold tracking-[0.2em] uppercase mb-4"
           >
             Discover Our
           </motion.span>
@@ -73,18 +72,18 @@ export default function LuxuryBeauty() {
                   />
                 </Link>
 
-                {/* Quick Add Button (Visible on hover) */}
+                {/* Quick Add Button */}
                 <div className="absolute bottom-0 left-0 w-full p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out">
-                  <button className="w-full bg-black/90 hover:bg-[#E45B83] text-white py-3.5 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 backdrop-blur-sm transition-colors">
+                  <button className="w-full bg-black/90 hover:bg-[#CB006B] text-white py-3.5 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 backdrop-blur-sm transition-colors">
                     <ShoppingBag className="w-4 h-4" />
                     Add to Bag
                   </button>
                 </div>
               </div>
 
-              {/* Product Info (শুধুমাত্র নাম) */}
+              {/* Product Info */}
               <div className="flex flex-col grow text-center mt-2">
-                <Link to={`/product/${product.id}`} className="text-sm font-bold text-black hover:text-[#E45B83] transition-colors uppercase tracking-wide">
+                <Link to={`/product/${product.id}`} className="text-sm font-bold text-black hover:text-[#CB006B] transition-colors uppercase tracking-wide">
                   {product.name}
                 </Link>
               </div>
@@ -102,7 +101,7 @@ export default function LuxuryBeauty() {
         >
           <Link 
             to="/shop" 
-            className="border-2 border-black text-black px-10 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors duration-300"
+            className="border-2 border-[#CB006B] text-[#CB006B] px-10 py-3.5 text-xs font-bold uppercase tracking-widest hover:bg-[#CB006B] hover:text-white transition-colors duration-300"
           >
             View All Products
           </Link>
