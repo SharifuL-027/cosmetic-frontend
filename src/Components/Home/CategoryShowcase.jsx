@@ -37,7 +37,7 @@ const categoryData = [
 export default function CategoryShowcase() {
   return (
     <section className="w-full bg-white py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-[1200px] mx-auto">
+      <div className="max-w-300 mx-auto">
         
         {categoryData.map((category, index) => (
           <div 
@@ -78,7 +78,7 @@ export default function CategoryShowcase() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="w-full lg:w-[55%] flex flex-col pt-0 lg:pt-8"
             >
-              <h2 className="text-2xl sm:text-[28px] font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif] mb-12 text-center lg:text-left">
+              <h2 className="text-2xl sm:text-[28px] poppins-bold-italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif] mb-12 text-center lg:text-left">
                 {category.lookTitle}
               </h2>
 

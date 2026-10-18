@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from '../Pages/Navbar';
+import Footer from '../Pages/Footer';
 
 export default function Layout() {
   return (
@@ -8,6 +9,7 @@ export default function Layout() {
       <main className="grow">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }

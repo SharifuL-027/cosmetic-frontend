@@ -45,7 +45,7 @@ export default function LuxuryBeauty() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-black italic tracking-tighter text-black uppercase font-['Arial_Black',sans-serif]"
+            className="text-4xl md:text-5xl poppins-bold-italic tracking-tighter text-black uppercase"
           >
             Luxury Beauty
           </motion.h2>

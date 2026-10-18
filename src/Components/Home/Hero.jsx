@@ -119,7 +119,7 @@ export default function Hero() {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: offset === 0 ? 1 : 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
-                  className="text-white text-4xl md:text-5xl lg:text-[64px] leading-none font-black italic tracking-tighter mb-4 uppercase max-w-3xl font-['Arial_Black',sans-serif] drop-shadow-lg"
+                  className="text-white text-4xl md:text-5xl lg:text-[64px] leading-none poppins-bold-italic tracking-tighter mb-4 uppercase max-w-3xl drop-shadow-lg"
                 >
                   {slide.title}
                 </motion.h1>
