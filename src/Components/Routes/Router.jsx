@@ -10,6 +10,7 @@ import AdminDashboard from '../Admin/AdminDashboard';
 import AdminProducts from '../Admin/AdminProducts';
 import AddProduct from '../Admin/AddProduct';
 import AdminCategory from '../Admin/AdminCategory';
+import Profile from '../Pages/Profile';
 
 export const router = createBrowserRouter([
   
@@ -25,6 +26,13 @@ export const router = createBrowserRouter([
     path: '/login', 
     element: <Login /> 
   },
+  {
+        path: 'profile',
+        element: <UserRoute />,
+        children: [
+          { path: '', element: <Profile/> },
+        ],
+      },
   
   {
     path: '/admin',
