@@ -7,11 +7,8 @@ export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  
-  // Database theke category anar jonno state
   const [categories, setCategories] = useState([]);
 
-  // Scroll track korar logic
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
@@ -20,7 +17,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Backend theke dynamic categories fetch kora
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -37,26 +33,22 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Promotional Banner */}
       <div className="w-full bg-[#CB006B] text-white text-[11px] sm:text-xs font-bold py-2.5 flex justify-center items-center tracking-[0.2em] relative z-40">
         <span className="uppercase hover:underline cursor-pointer hidden sm:inline">Shop Our New Arrivals</span>
         <span className="mx-4 font-normal text-white/70 hidden sm:inline">|</span>
         <span className="uppercase hover:underline cursor-pointer">Our Advent Calendar Is Back</span>
       </div>
 
-      {/* Main Navbar */}
       <header className={`w-full sticky top-0 z-50 bg-white transition-all duration-300 ${isScrolled ? 'shadow-md' : 'border-b border-gray-100'}`}>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? 'h-16' : 'h-24'}`}>
             
-            {/* Mobile Menu Button */}
             <div className="flex lg:hidden flex-1">
               <button onClick={() => setMobileMenuOpen(true)} className="p-2 -ml-2 text-black hover:text-[#C27B8A] transition-colors">
                 <Menu className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Logo */}
             <div className="flex-1 lg:flex-none flex justify-center lg:justify-start">
               <Link to="/" className="hover:scale-105 transition-transform duration-300 block">
                 <img 
@@ -67,15 +59,12 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Desktop Navigation Links */}
             <div className="hidden lg:flex flex-1 justify-end h-full items-center gap-10">
-              
               <nav className="flex space-x-8 h-full items-center">
-                <Link to="/shop?badge=new" className="text-[13px] font-bold text-black hover:text-[#C27B8A] transition-colors tracking-widest uppercase">
+                <Link to="/shop?badge=new" className="text-[13px] poppins-bold text-black hover:text-[#db5875] transition-colors tracking-widest uppercase">
                   New
                 </Link>
                 
-                {/* Dynamic Categories Mapping */}
                 {categories.map((category) => (
                   <div 
                     key={category._id}
@@ -83,14 +72,13 @@ export default function Navbar() {
                     onMouseEnter={() => setActiveMenu(category.name)}
                     onMouseLeave={() => setActiveMenu(null)}
                   >
-                    <Link to={`/shop?main=${category.name}`} className="text-[13px] font-bold text-black group-hover:text-[#C27B8A] transition-colors tracking-widest uppercase flex items-center gap-1">
+                    <Link to={`/shop?main=${category.name}`} className="text-[13px] poppins-bold text-black group-hover:text-[#df5c78] transition-colors tracking-normal uppercase flex items-center gap-1">
                       {category.name} 
                       {category.subCategories && category.subCategories.length > 0 && (
                         <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
                       )}
                     </Link>
 
-                    {/* Dynamic Mega Menu Dropdown */}
                     <AnimatePresence>
                       {activeMenu === category.name && category.subCategories && category.subCategories.length > 0 && (
                         <motion.div 
@@ -103,15 +91,21 @@ export default function Navbar() {
                           <div className="grid grid-cols-4 gap-8 px-8">
                             {category.subCategories.map((sub, idx) => (
                               <div key={idx} className="flex flex-col">
-                                <h3 className="text-base font-black italic tracking-tight mb-4 uppercase border-b border-gray-100 pb-2 text-black">
+                                
+                                {/* এই জায়গাটা আপডেট করা হয়েছে। এখন সাব-ক্যাটাগরির নামে ক্লিক করা যাবে */}
+                                <Link 
+                                  to={`/shop?main=${category.name}&sub=${sub.name}`}
+                                  className="text-sm font-black italic tracking-tight mb-4 uppercase poppins-semibold-italic border-b border-gray-100 pb-2 text-black hover:text-[#CB006B] transition-colors block w-full text-left"
+                                >
                                   {sub.name}
-                                </h3>
+                                </Link>
+
                                 <ul className="space-y-3">
                                   {sub.subChildren?.map(child => (
                                     <li key={child}>
                                       <Link 
                                         to={`/shop?main=${category.name}&sub=${sub.name}&subChild=${child}`} 
-                                        className="text-[14px] text-gray-600 hover:text-[#C27B8A] hover:pl-2 transition-all duration-300 block"
+                                        className="text-[14px] poppins-normal text-gray-700 hover:text-[#da3d5f] hover:pl-2 transition-all duration-300 block"
                                       >
                                         {child}
                                       </Link>
@@ -128,10 +122,8 @@ export default function Navbar() {
                 ))}
               </nav>
 
-              {/* Right Divider */}
               <div className="h-6 w-px bg-gray-200"></div>
 
-              {/* Icons */}
               <div className="flex items-center space-x-6">
                 <button className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
                   <Search className="w-5 h-5 stroke-[1.5]" />
@@ -149,7 +141,6 @@ export default function Navbar() {
               
             </div>
 
-            {/* Mobile Right Icons */}
             <div className="flex lg:hidden flex-1 justify-end items-center space-x-5">
               <button className="text-black hover:text-[#C27B8A] transition-colors">
                 <Search className="w-5 h-5 stroke-[1.5]" />
@@ -165,7 +156,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu Overlay - Dynamic Version */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div 
@@ -186,7 +176,6 @@ export default function Navbar() {
                   New
                 </Link>
                 
-                {/* Mobile Dynamic Categories */}
                 {categories.map((category) => (
                   <Link 
                     key={category._id}
