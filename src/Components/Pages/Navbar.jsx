@@ -138,9 +138,10 @@ export default function Navbar() {
                 <button className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
                   <Search className="w-5 h-5 stroke-[1.5]" />
                 </button>
-                <Link to="/login" className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
-                  <User className="w-5 h-5 stroke-[1.5]" />
-                </Link>
+                {/* Dynamic User Icon Route */}
+<Link to={user ? (user.role === 'admin' ? '/admin/dashboard' : '/profile') : '/login'} className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
+  <User className="w-5 h-5 stroke-[1.5]" />
+</Link>
                 <button className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200 relative group">
                   <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
                   <span className="absolute -top-1.5 -right-2 bg-[#CB006B] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -181,7 +182,9 @@ export default function Navbar() {
                   <X className="w-7 h-7" />
                 </button>
               </div>
-              <div className="flex flex-col p-6 space-y-6 overflow-y-auto">
+              
+              {/* Menu Links */}
+              <div className="flex flex-col p-6 space-y-6 overflow-y-auto flex-1">
                 <Link to="/shop?badge=new" onClick={() => setMobileMenuOpen(false)} className="text-xl font-bold text-black border-b border-gray-100 pb-4 uppercase tracking-wider flex justify-between items-center hover:text-[#C27B8A] transition-colors">
                   New
                 </Link>
@@ -199,6 +202,18 @@ export default function Navbar() {
 
                 <Link to="/shop" onClick={() => setMobileMenuOpen(false)} className="text-xl font-bold text-[#CB006B] border-b border-gray-100 pb-4 uppercase tracking-wider flex justify-between items-center">
                   Shop All <ChevronDown className="w-5 h-5 text-[#CB006B] -rotate-90" />
+                </Link>
+              </div>
+
+              {/* Mobile Menu Footer with User Info (এই অংশটি যোগ করা হয়েছে) */}
+              <div className="p-6 bg-gray-50 mt-auto border-t border-gray-100">
+                <Link 
+                  to={user ? (user.role === 'admin' ? '/admin/dashboard' : '/profile') : '/login'}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 text-black font-bold uppercase tracking-widest text-sm"
+                >
+                  <UserCircle className="w-6 h-6 text-[#CB006B]" />
+                  {user ? (user.role === 'admin' ? 'Admin Panel' : 'My Account') : 'Sign In / Register'}
                 </Link>
               </div>
             </motion.div>
