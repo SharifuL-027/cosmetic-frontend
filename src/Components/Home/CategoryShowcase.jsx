@@ -1,143 +1,108 @@
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
-const categoryData = [
+// আমাদের নতুন ডাটাবেস ক্যাটাগরি স্ট্রাকচার অনুযায়ী লিংকগুলো (query) সেট করা হয়েছে
+const categories = [
   {
     id: 1,
-    cover: {
-      image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=2070&auto=format&fit=crop",
-      title: "DIP, BLEND & BLUSH",
-      subtitle: "Blendable formulas bursting with colour and pigment"
-    },
-    lookTitle: "GET THE LOOK",
-    products: [
-      {
-        id: 101,
-        name: "It's Glow Prime Radiant Primer",
-        price: "£6.50",
-        image: "https://res.cloudinary.com/wtbwxhmc/image/upload/v1792229508/image.png_2K_20261017152946_c8jojw.jpg",
-        rating: 5,
-        reviews: 175,
-        shades: [] 
-      },
-      {
-        id: 102,
-        name: "Blushful Cream To Powder Blusher",
-        price: "£6.00",
-        image: "https://res.cloudinary.com/wtbwxhmc/image/upload/v1792231631/image.png_2K_20261017160340_gy7aw4.jpg",
-        rating: 5,
-        reviews: 13,
-        shades: ['#e5989b', '#d5bdaf', '#b56576', '#e56b6f']
-      }
-    ]
+    title: "Face",
+    subtitle: "Flawless Base",
+    query: "?sub=Face", // ডাটাবেসের sub: "Face" এর সাথে ম্যাচ করবে
+    image: "https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=800",
+  },
+  {
+    id: 2,
+    title: "Lips",
+    subtitle: "Bold & Beautiful",
+    query: "?sub=Lips", // ডাটাবেসের sub: "Lips" এর সাথে ম্যাচ করবে
+    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?q=80&w=800",
+  },
+  {
+    id: 3,
+    title: "Eyes",
+    subtitle: "Mesmerizing Looks",
+    query: "?sub=Eyes", // ডাটাবেসের sub: "Eyes" এর সাথে ম্যাচ করবে
+    image: "https://images.unsplash.com/photo-1512496015851-a1c8d4f70b73?q=80&w=800",
+  },
+  {
+    id: 4,
+    title: "Skincare",
+    subtitle: "Healthy Glow",
+    query: "?main=Skincare", // ডাটাবেসের main: "Skincare" এর সাথে ম্যাচ করবে
+    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800",
   }
 ];
 
 export default function CategoryShowcase() {
   return (
-    <section className="w-full bg-white py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-300 mx-auto">
+    <section className="w-full bg-[#F9F9F9] py-20 px-4 sm:px-6 lg:px-8 border-t border-gray-200">
+      <div className="max-w-[1400px] mx-auto">
         
-        {categoryData.map((category, index) => (
-          <div 
-            key={category.id} 
-            className={`flex flex-col lg:flex-row items-start gap-12 lg:gap-20 ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''} mb-24 last:mb-0`}
+        {/* Section Header */}
+        <div className="flex flex-col items-center text-center mb-16">
+          <motion.span 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[#CB006B] text-xs font-bold tracking-[0.2em] uppercase mb-4"
           >
-            
-            {/* Left Side: Cover Image & Text */}
-            <motion.div 
+            Shop By Category
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl font-black italic tracking-tighter text-black uppercase font-['Arial_Black',sans-serif]"
+          >
+            Explore Essentials
+          </motion.h2>
+        </div>
+
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {categories.map((category, index) => (
+            <motion.div
+              key={category.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6 }}
-              className="w-full lg:w-[45%] flex flex-col items-center text-center"
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              className="group relative h-[450px] w-full overflow-hidden bg-black cursor-pointer"
             >
-              {/* Image Container - Strictly 1:1 Aspect Ratio everywhere */}
-              <div className="w-full aspect-square rounded-[20px] overflow-hidden mb-6 shadow-sm">
-                <img 
-                  src={category.cover.image} 
-                  alt={category.cover.title} 
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out"
-                />
-              </div>
+              {/* Category Image */}
+              <img 
+                src={category.image} 
+                alt={category.title}
+                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-in-out"
+              />
               
-              <h2 className="text-2xl sm:text-[28px] leading-tight font-black italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif]">
-                {category.cover.title}
-              </h2>
-              <p className="text-[13px] sm:text-[14px] text-gray-800 mt-2.5 font-medium max-w-[90%]">
-                {category.cover.subtitle}
-              </p>
-            </motion.div>
+              {/* Gradient Overlay for better text visibility */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-            {/* Right Side: Products ("GET THE LOOK") */}
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="w-full lg:w-[55%] flex flex-col pt-0 lg:pt-8"
-            >
-              <h2 className="text-2xl sm:text-[28px] poppins-bold-italic uppercase tracking-tighter text-black font-['Arial_Black',sans-serif] mb-12 text-center lg:text-left">
-                {category.lookTitle}
-              </h2>
-
-              <div className="grid grid-cols-2 gap-6 sm:gap-10">
-                {category.products.map(product => (
-                  <div key={product.id} className="flex flex-col items-center text-center group">
-                    
-                    {/* Clean Product Image Area without borders */}
-                    <Link to={`/product/${product.id}`} className="w-full aspect-[4/5] flex items-center justify-center mb-5 relative">
-                      <img 
-                        src={product.image} 
-                        alt={product.name} 
-                        className="max-w-[85%] max-h-[85%] object-contain group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500 ease-out drop-shadow-md" 
-                      />
-                    </Link>
-
-                    {/* Product Title */}
-                    <Link to={`/product/${product.id}`}>
-                      <h3 className="text-[13px] sm:text-[14px] font-medium text-black mb-1.5 hover:text-[#CB006B] transition-colors tracking-wide leading-relaxed">
-                        {product.name}
-                      </h3>
-                    </Link>
-                    
-                    {/* Price */}
-                    <span className="text-[15px] font-black text-black mb-3">
-                      {product.price}
-                    </span>
-
-                    {/* Stars & Reviews */}
-                    <div className="flex items-center gap-[2px] mb-4">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`w-3.5 h-3.5 ${i < product.rating ? 'fill-black text-black' : 'fill-gray-200 text-gray-200'}`} 
-                        />
-                      ))}
-                      <span className="text-[10px] sm:text-[11px] text-gray-500 font-medium ml-1.5">{product.reviews} Reviews</span>
-                    </div>
-
-                    {/* Color Shades Matches screenshot style */}
-                    {product.shades && product.shades.length > 0 && (
-                      <div className="flex items-center justify-center gap-2 mt-auto">
-                        {product.shades.map((color, i) => (
-                          <div 
-                            key={i} 
-                            className="w-4 h-4 rounded-full border border-gray-200 shadow-sm hover:scale-125 cursor-pointer transition-transform" 
-                            style={{ backgroundColor: color }}
-                          ></div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+              {/* Text & Button Content */}
+              <div className="absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end">
+                <span className="text-[#CB006B] text-[10px] font-black uppercase tracking-[0.2em] mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  {category.subtitle}
+                </span>
+                <h3 className="text-3xl font-black italic tracking-tighter text-white uppercase font-['Arial_Black',sans-serif] mb-4">
+                  {category.title}
+                </h3>
+                
+                {/* Dynamic Link to Shop Page */}
+                <Link 
+                  to={`/shop${category.query}`} 
+                  className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-widest hover:text-[#CB006B] transition-colors w-fit"
+                >
+                  Shop Now
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
+                </Link>
               </div>
             </motion.div>
+          ))}
+        </div>
 
-          </div>
-        ))}
-        
       </div>
     </section>
   );
