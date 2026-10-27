@@ -1,5 +1,5 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, Users, LogOut, ArrowLeft, PlusCircle } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, Users, LogOut, ArrowLeft, PlusCircle, FolderPlus } from 'lucide-react';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -32,6 +32,9 @@ export default function AdminLayout() {
             </Link>
             <Link to="/admin/products/add" className="flex items-center gap-3 px-4 py-3 text-sm font-bold tracking-widest uppercase text-gray-400 hover:bg-[#CB006B] hover:text-white transition-colors rounded">
               <PlusCircle className="w-5 h-5" /> Add Product
+            </Link>
+            <Link to="/admin/categories" className="flex items-center gap-3 px-4 py-3 text-sm font-bold tracking-widest uppercase text-gray-400 hover:bg-[#CB006B] hover:text-white transition-colors rounded">
+              <FolderPlus className="w-5 h-5" /> Categories
             </Link>
             <Link to="/admin/orders" className="flex items-center gap-3 px-4 py-3 text-sm font-bold tracking-widest uppercase text-gray-400 hover:bg-[#CB006B] hover:text-white transition-colors rounded">
               <ShoppingCart className="w-5 h-5" /> Orders
