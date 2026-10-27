@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, User, ShoppingBag, Menu, X, ChevronDown } from 'lucide-react';
+import { Search, User, ShoppingBag, Menu, X, ChevronDown, UserCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
@@ -8,7 +8,17 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [user, setUser] = useState(null);
 
+  // লোকাল স্টোরেজ থেকে ইউজারের ডাটা চেক করা
+  useEffect(() => {
+    const userInfo = localStorage.getItem('wbb_user');
+    if (userInfo) {
+      setUser(JSON.parse(userInfo));
+    }
+  }, []);
+
+  // স্ক্রল ট্র্যাক করা
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
@@ -17,6 +27,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // ক্যাটাগরি ফেচ করা
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -30,7 +41,6 @@ export default function Navbar() {
     };
     fetchCategories();
   }, []);
-
   return (
     <>
       <div className="w-full bg-[#CB006B] text-white text-[11px] sm:text-xs font-bold py-2.5 flex justify-center items-center tracking-[0.2em] relative z-40">

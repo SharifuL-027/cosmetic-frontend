@@ -11,6 +11,7 @@ import AdminProducts from '../Admin/AdminProducts';
 import AddProduct from '../Admin/AddProduct';
 import AdminCategory from '../Admin/AdminCategory';
 import Profile from '../Pages/Profile';
+import UserRoute from './UserRoute';
 
 export const router = createBrowserRouter([
   
