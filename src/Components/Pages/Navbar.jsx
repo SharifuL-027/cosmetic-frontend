@@ -183,7 +183,7 @@ export default function Navbar() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '-100%' }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="fixed inset-0 bg-white z-[60] lg:hidden flex flex-col"
+              className="fixed inset-0 bg-white z-60 lg:hidden flex flex-col"
             >
               <div className="flex justify-between items-center p-6 border-b border-gray-100">
                 <span className="text-3xl font-black italic tracking-tighter">WBB</span>
