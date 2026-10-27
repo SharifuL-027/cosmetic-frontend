@@ -25,7 +25,7 @@ export default function Profile() {
   if (!user) return null; // ডাটা লোড হওয়ার আগে কিছু দেখাবে না
 
   return (
-    <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 min-h-[60vh]">
+    <div className="w-full max-w-300 mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 min-h-[60vh]">
       
       {/* Header */}
       <div className="mb-10 text-center md:text-left border-b border-gray-200 pb-6 flex flex-col md:flex-row justify-between items-center gap-4">
