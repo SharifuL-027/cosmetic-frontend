@@ -7,6 +7,7 @@ import Home from '../Home/Home';
 import Shop from '../Pages/Shop';
 import Login from '../Pages/Login';
 import AdminDashboard from '../Admin/AdminDashboard';
+import AdminProducts from '../Admin/AdminProducts';
 
 export const router = createBrowserRouter([
   
@@ -32,6 +33,7 @@ export const router = createBrowserRouter([
         element: <AdminLayout />,
         children: [
           { path: 'dashboard', element: <AdminDashboard /> },
+          { path: 'products', element: <AdminProducts /> },
           
         ],
       },
