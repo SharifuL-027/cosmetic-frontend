@@ -37,7 +37,7 @@ const categories = [
 export default function CategoryShowcase() {
   return (
     <section className="w-full bg-[#F9F9F9] py-20 px-4 sm:px-6 lg:px-8 border-t border-gray-200">
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-350 mx-auto">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
@@ -69,7 +69,7 @@ export default function CategoryShowcase() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="group relative h-[450px] w-full overflow-hidden bg-black cursor-pointer"
+              className="group relative h-112.5 w-full overflow-hidden bg-black cursor-pointer"
             >
               {/* Category Image */}
               <img 
@@ -79,7 +79,7 @@ export default function CategoryShowcase() {
               />
               
               {/* Gradient Overlay for better text visibility */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"></div>
 
               {/* Text & Button Content */}
               <div className="absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end">
