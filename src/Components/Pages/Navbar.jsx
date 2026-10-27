@@ -3,42 +3,36 @@ import { Link } from 'react-router-dom';
 import { Search, User, ShoppingBag, Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// নতুন ডাটাবেস স্ট্রাকচার অনুযায়ী মেগামেনুর ডাটা
-const makeupMenuData = {
-  mainCategory: "Makeup",
-  columns: [
-    {
-      title: "Face",
-      items: ["Face Palettes", "Foundation", "Tinted Moisturiser", "Primer", "Concealer", "Blusher"]
-    },
-    {
-      title: "Eyes",
-      items: ["Primer & Brightener", "Eyeshadows", "Eyeliner", "Mascara", "False Eyelashes"]
-    },
-    {
-      title: "Lips",
-      items: ["Lipstick", "Lip Gloss", "Lip Liner", "Lip Balms"]
-    },
-    {
-      title: "Palettes",
-      items: ["View All Palettes"]
-    }
-  ]
-};
-
 export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Database theke category anar jonno state
+  const [categories, setCategories] = useState([]);
 
-  // স্ক্রল ট্র্যাক করার সিম্পল লজিক
+  // Scroll track korar logic
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 40);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Backend theke dynamic categories fetch kora
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+        const res = await fetch(`${apiUrl}/categories`);
+        const data = await res.json();
+        setCategories(data);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+      }
+    };
+    fetchCategories();
   }, []);
 
   return (
@@ -64,78 +58,74 @@ export default function Navbar() {
 
             {/* Logo */}
             <div className="flex-1 lg:flex-none flex justify-center lg:justify-start">
-              <a href="/" className="hover:scale-105 transition-transform duration-300 block">
+              <Link to="/" className="hover:scale-105 transition-transform duration-300 block">
                 <img 
                   src="https://res.cloudinary.com/wtbwxhmc/image/upload/v1792236384/Elegant_WBB_Beauty_Emblem-removebg-preview_yul9xd.png" 
                   alt="WBB Logo" 
                   className="h-10 lg:h-20 w-auto" 
                 />
-              </a>
+              </Link>
             </div>
 
             {/* Desktop Navigation Links */}
             <div className="hidden lg:flex flex-1 justify-end h-full items-center gap-10">
               
-              {/* Nav Links */}
               <nav className="flex space-x-8 h-full items-center">
                 <Link to="/shop?badge=new" className="text-[13px] font-bold text-black hover:text-[#C27B8A] transition-colors tracking-widest uppercase">
                   New
                 </Link>
                 
-                {/* Makeup - Mega Menu Trigger */}
-                <div 
-                  className="h-full flex items-center cursor-pointer group relative"
-                  onMouseEnter={() => setActiveMenu('makeup')}
-                  onMouseLeave={() => setActiveMenu(null)}
-                >
-                  <Link to="/shop?main=Makeup" className="text-[13px] font-bold text-black group-hover:text-[#C27B8A] transition-colors tracking-widest uppercase flex items-center gap-1">
-                    Makeup <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
-                  </Link>
+                {/* Dynamic Categories Mapping */}
+                {categories.map((category) => (
+                  <div 
+                    key={category._id}
+                    className="h-full flex items-center cursor-pointer group relative"
+                    onMouseEnter={() => setActiveMenu(category.name)}
+                    onMouseLeave={() => setActiveMenu(null)}
+                  >
+                    <Link to={`/shop?main=${category.name}`} className="text-[13px] font-bold text-black group-hover:text-[#C27B8A] transition-colors tracking-widest uppercase flex items-center gap-1">
+                      {category.name} 
+                      {category.subCategories && category.subCategories.length > 0 && (
+                        <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
+                      )}
+                    </Link>
 
-                  {/* Mega Menu Dropdown */}
-                  <AnimatePresence>
-                    {activeMenu === 'makeup' && (
-                      <motion.div 
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 15 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="absolute top-full left-1/2 -translate-x-1/2 w-[800px] bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-t-[3px] border-[#CB006B] py-10 z-50"
-                      >
-                        <div className="grid grid-cols-4 gap-8 px-8">
-                          {makeupMenuData.columns.map((col, idx) => (
-                            <div key={idx} className="flex flex-col">
-                              {/* Sub Category Title (e.g. Face) */}
-                              <h3 className="text-base font-black italic tracking-tight mb-4 uppercase border-b border-gray-100 pb-2 text-black">
-                                {col.title}
-                              </h3>
-                              <ul className="space-y-3">
-                                {/* Sub Child Items (e.g. Foundation) */}
-                                {col.items.map(item => (
-                                  <li key={item}>
-                                    <Link 
-                                      to={`/shop?main=${makeupMenuData.mainCategory}&sub=${col.title}&subChild=${item}`} 
-                                      className="text-[14px] text-gray-600 hover:text-[#C27B8A] hover:pl-2 transition-all duration-300 block"
-                                    >
-                                      {item}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                <Link to="/shop?main=Skincare" className="text-[13px] font-bold text-black hover:text-[#C27B8A] transition-colors tracking-widest uppercase">
-                  Skincare
-                </Link>
-                <Link to="/shop?main=Tools" className="text-[13px] font-bold text-black hover:text-[#C27B8A] transition-colors tracking-widest uppercase">
-                  Tools & Accessories
-                </Link>
+                    {/* Dynamic Mega Menu Dropdown */}
+                    <AnimatePresence>
+                      {activeMenu === category.name && category.subCategories && category.subCategories.length > 0 && (
+                        <motion.div 
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 15 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 w-[800px] bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-t-[3px] border-[#CB006B] py-10 z-50"
+                        >
+                          <div className="grid grid-cols-4 gap-8 px-8">
+                            {category.subCategories.map((sub, idx) => (
+                              <div key={idx} className="flex flex-col">
+                                <h3 className="text-base font-black italic tracking-tight mb-4 uppercase border-b border-gray-100 pb-2 text-black">
+                                  {sub.name}
+                                </h3>
+                                <ul className="space-y-3">
+                                  {sub.subChildren?.map(child => (
+                                    <li key={child}>
+                                      <Link 
+                                        to={`/shop?main=${category.name}&sub=${sub.name}&subChild=${child}`} 
+                                        className="text-[14px] text-gray-600 hover:text-[#C27B8A] hover:pl-2 transition-all duration-300 block"
+                                      >
+                                        {child}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
               </nav>
 
               {/* Right Divider */}
@@ -147,8 +137,8 @@ export default function Navbar() {
                   <Search className="w-5 h-5 stroke-[1.5]" />
                 </button>
                 <Link to="/login" className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
-  <User className="w-5 h-5 stroke-[1.5]" />
-</Link>
+                  <User className="w-5 h-5 stroke-[1.5]" />
+                </Link>
                 <button className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200 relative group">
                   <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
                   <span className="absolute -top-1.5 -right-2 bg-[#CB006B] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -175,7 +165,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu Overlay - Dynamic Version */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div 
@@ -183,7 +173,7 @@ export default function Navbar() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '-100%' }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="fixed inset-0 bg-white z-60 lg:hidden flex flex-col"
+              className="fixed inset-0 bg-white z-[60] lg:hidden flex flex-col"
             >
               <div className="flex justify-between items-center p-6 border-b border-gray-100">
                 <span className="text-3xl font-black italic tracking-tighter">WBB</span>
@@ -193,14 +183,21 @@ export default function Navbar() {
               </div>
               <div className="flex flex-col p-6 space-y-6 overflow-y-auto">
                 <Link to="/shop?badge=new" onClick={() => setMobileMenuOpen(false)} className="text-xl font-bold text-black border-b border-gray-100 pb-4 uppercase tracking-wider flex justify-between items-center hover:text-[#C27B8A] transition-colors">
-                  New <ChevronDown className="w-5 h-5 text-gray-400 -rotate-90" />
+                  New
                 </Link>
-                <Link to="/shop?main=Makeup" onClick={() => setMobileMenuOpen(false)} className="text-xl font-bold text-black border-b border-gray-100 pb-4 uppercase tracking-wider flex justify-between items-center hover:text-[#C27B8A] transition-colors">
-                  Makeup <ChevronDown className="w-5 h-5 text-gray-400 -rotate-90" />
-                </Link>
-                <Link to="/shop?main=Skincare" onClick={() => setMobileMenuOpen(false)} className="text-xl font-bold text-black border-b border-gray-100 pb-4 uppercase tracking-wider flex justify-between items-center hover:text-[#C27B8A] transition-colors">
-                  Skincare <ChevronDown className="w-5 h-5 text-gray-400 -rotate-90" />
-                </Link>
+                
+                {/* Mobile Dynamic Categories */}
+                {categories.map((category) => (
+                  <Link 
+                    key={category._id}
+                    to={`/shop?main=${category.name}`} 
+                    onClick={() => setMobileMenuOpen(false)} 
+                    className="text-xl font-bold text-black border-b border-gray-100 pb-4 uppercase tracking-wider flex justify-between items-center hover:text-[#C27B8A] transition-colors"
+                  >
+                    {category.name} <ChevronDown className="w-5 h-5 text-gray-400 -rotate-90" />
+                  </Link>
+                ))}
+
                 <Link to="/shop" onClick={() => setMobileMenuOpen(false)} className="text-xl font-bold text-[#CB006B] border-b border-gray-100 pb-4 uppercase tracking-wider flex justify-between items-center">
                   Shop All <ChevronDown className="w-5 h-5 text-[#CB006B] -rotate-90" />
                 </Link>
