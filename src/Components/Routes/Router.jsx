@@ -6,7 +6,7 @@ import AdminRoute from '../Routes/AdminRoute';
 import Home from '../Home/Home';
 import Shop from '../Pages/Shop';
 import Login from '../Pages/Login';
-import AdminDashboard from '../Pages/AdminDashboard';
+import AdminDashboard from '../Admin/AdminDashboard';
 
 export const router = createBrowserRouter([
   
