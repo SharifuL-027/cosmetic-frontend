@@ -146,9 +146,9 @@ export default function Navbar() {
                 <button className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
                   <Search className="w-5 h-5 stroke-[1.5]" />
                 </button>
-                <button className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
-                  <User className="w-5 h-5 stroke-[1.5]" />
-                </button>
+                <Link to="/login" className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
+  <User className="w-5 h-5 stroke-[1.5]" />
+</Link>
                 <button className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200 relative group">
                   <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
                   <span className="absolute -top-1.5 -right-2 bg-[#CB006B] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">

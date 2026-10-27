@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Loader2, ArrowRight } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true); // true = Login page, false = Register page
+  const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -15,6 +15,19 @@ export default function Login() {
     email: '',
     password: ''
   });
+
+  // যদি ইউজার আগে থেকেই লগইন করা থাকে, তবে তাকে ড্যাশবোর্ড বা হোমে পাঠিয়ে দেবে
+  useEffect(() => {
+    const userInfo = localStorage.getItem('wbb_user');
+    if (userInfo) {
+      const user = JSON.parse(userInfo);
+      if (user.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,14 +60,12 @@ export default function Login() {
         throw new Error(data.message || 'Something went wrong');
       }
 
-      // লগইন/রেজিস্টার সাকসেসফুল হলে লোকাল স্টোরেজে ডাটা সেভ করা
       localStorage.setItem('wbb_user', JSON.stringify(data));
       
-      // রোল অনুযায়ী রিডাইরেক্ট করা
       if (data.role === 'admin') {
-        navigate('/admin-dashboard'); // পরে আমরা অ্যাডমিন ড্যাশবোর্ড বানাবো
+        navigate('/admin/dashboard');
       } else {
-        navigate('/'); // কাস্টমার হলে হোমপেজে যাবে
+        navigate('/');
       }
       
     } catch (err) {
@@ -67,7 +78,7 @@ export default function Login() {
   return (
     <div className="min-h-screen w-full flex bg-[#F9F9F9]">
       
-      {/* Left Side - Image Section (Hidden on mobile) */}
+      {/* Left Side - Image Section */}
       <div className="hidden lg:flex w-1/2 relative bg-black">
         <img 
           src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?q=80&w=1000" 
@@ -88,7 +99,6 @@ export default function Login() {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-20">
         <div className="w-full max-w-md">
           
-          {/* Header */}
           <div className="text-center mb-10">
             <h1 className="text-3xl font-black italic tracking-tighter text-black uppercase font-['Arial_Black',sans-serif]">
               {isLogin ? 'Welcome Back' : 'Create Account'}
@@ -98,10 +108,10 @@ export default function Login() {
             </p>
           </div>
 
-          {/* Error Message */}
           <AnimatePresence>
             {error && (
               <motion.div 
+                key="error-box" // ক্র্যাশ ঠেকানোর জন্য key যুক্ত করা হলো
                 initial={{ opacity: 0, y: -10 }} 
                 animate={{ opacity: 1, y: 0 }} 
                 exit={{ opacity: 0, y: -10 }}
@@ -112,13 +122,12 @@ export default function Login() {
             )}
           </AnimatePresence>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             
-            {/* Name Field (Only for Register) */}
             <AnimatePresence>
               {!isLogin && (
                 <motion.div
+                  key="name-field" // ক্র্যাশ ঠেকানোর জন্য key যুক্ত করা হলো
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
@@ -195,7 +204,6 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Toggle Login/Register */}
           <div className="mt-10 text-center border-t border-gray-200 pt-6">
             <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest">
               {isLogin ? "Don't have an account?" : "Already have an account?"}
