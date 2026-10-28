@@ -19,7 +19,7 @@ export default function BannerPromotion() {
         >
           {/* আপনার জেনারেট করা সলিড পিংক ব্যানার ছবিটি এখানে ব্যবহার করুন */}
           <img 
-            src="/watermarked_img_16535377147113712464.jpg" 
+            src="https://res.cloudinary.com/wtbwxhmc/image/upload/v1793180291/Gemini_Generated_Image_4je9xr4je9xr4je9_w5rj3m.jpg" 
             alt="White Birch Beauty Waterproof Lipgloss" 
             className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
           />
