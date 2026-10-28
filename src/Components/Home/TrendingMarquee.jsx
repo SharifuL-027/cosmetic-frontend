@@ -32,8 +32,8 @@ export default function TrendingMarquee() {
         style={{ perspective: "1200px" }} 
       >
         {/* ফেড এফেক্টের কালারগুলো ব্ল্যাক থেকে পিংক করা হয়েছে যাতে ব্যাকগ্রাউন্ডের সাথে মিশে যায় */}
-        <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-gradient-to-r from-[#FDF2F8] to-transparent z-20 pointer-events-none"></div>
-        <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-gradient-to-l from-[#FDF2F8] to-transparent z-20 pointer-events-none"></div>
+        <div className="absolute inset-y-0 left-0 w-24 md:w-64 bg-linear-to-r from-[#FDF2F8] to-transparent z-20 pointer-events-none"></div>
+        <div className="absolute inset-y-0 right-0 w-24 md:w-64 bg-linear-to-l from-[#FDF2F8] to-transparent z-20 pointer-events-none"></div>
 
         {/* The Moving 3D Track */}
         <motion.div
