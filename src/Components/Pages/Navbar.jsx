@@ -43,14 +43,13 @@ export default function Navbar() {
   }, []);
   return (
     <>
-      <div className="w-full bg-[#CB006B] text-white text-[11px] sm:text-xs font-bold py-2.5 flex justify-center items-center tracking-[0.2em] relative z-40">
+      <div className="w-full bg-[#f50083] text-white text-[11px] sm:text-xs font-bold py-2.5 flex justify-center items-center tracking-[0.2em] relative z-40">
         <span className="uppercase hover:underline cursor-pointer hidden sm:inline">Shop Our New Arrivals</span>
         <span className="mx-4 font-normal text-white/70 hidden sm:inline">|</span>
-        <span className="uppercase hover:underline cursor-pointer">Our Advent Calendar Is Back</span>
       </div>
 
       <header className={`w-full sticky top-0 z-50 bg-white transition-all duration-300 ${isScrolled ? 'shadow-md' : 'border-b border-gray-100'}`}>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? 'h-16' : 'h-24'}`}>
             
             <div className="flex lg:hidden flex-1">

@@ -61,7 +61,7 @@ export default function Shop() {
 
   return (
     <div className="w-full min-h-screen bg-[#F9F9F9] pt-10 pb-20">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Page Header */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-gray-200 pb-6">
@@ -69,7 +69,7 @@ export default function Shop() {
             <motion.h1 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="text-4xl md:text-5xl font-black italic tracking-tighter text-black uppercase font-['Arial_Black',sans-serif]"
+              className="text-3xl md:text-4xl poppins-bold-italic tracking-tighter text-black uppercase "
             >
               {pageTitle}
             </motion.h1>

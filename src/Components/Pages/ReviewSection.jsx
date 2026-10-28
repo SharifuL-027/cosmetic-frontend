@@ -77,9 +77,9 @@ export default function ReviewSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl lg:text-5xl poppins-bold-italic tracking-tighter text-black uppercase"
+            className="text-3xl md:text-4xl poppins-bold-italic tracking-tighter text-black uppercase"
           >
-            Customer Reviews
+            Customer <span className=" text-[#CB006B]">Reviews</span>
           </motion.h2>
         </div>
 

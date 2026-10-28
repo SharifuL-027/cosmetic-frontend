@@ -48,10 +48,10 @@ export default function LuxuryBeauty() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-light text-black tracking-tight mb-6"
-            style={{ fontFamily: "Georgia, 'Times New Roman', Times, serif" }}
+            className="text-3xl md:text-4xl poppins-bold-italic text-black tracking-tight uppercase mb-6"
+            
           >
-            Luxury <span className="italic text-[#CB006B]">Beauty</span>
+            Luxury <span className=" text-[#CB006B]">Beauty</span>
           </motion.h2>
           <motion.div 
             initial={{ scaleX: 0 }}
