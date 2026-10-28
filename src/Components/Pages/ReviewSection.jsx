@@ -84,8 +84,7 @@ export default function ReviewSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-5xl font-light tracking-tight text-black mb-6"
-            style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+            className="text-3xl md:text-4xl poppins-bold-italic tracking-tighter uppercase text-black mb-6"
           >
             Loved by <span className="italic text-[#CB006B]">Beauty</span> Lovers
           </motion.h2>
