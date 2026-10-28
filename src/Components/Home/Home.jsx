@@ -3,6 +3,7 @@ import ReviewSection from '../Pages/ReviewSection';
 import ShopTheLook from '../Pages/ShopTheLook';
 import BannerPromotion from './BannerPromotion';
 import CategoryShowcase from './CategoryShowcase';
+import FoundationBanner from './FoundationBanner';
 import LuxuryBeauty from './LuxuryBeauty';
 import TrendingMarquee from './TrendingMarquee';
 
@@ -14,6 +15,7 @@ export default function Home() {
       <BannerPromotion/>
       <CategoryShowcase/>
       <TrendingMarquee/>
+      <FoundationBanner/>
       <ShopTheLook/>
       <ReviewSection/>
     </div>
