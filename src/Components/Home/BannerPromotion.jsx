@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom';
 export default function BannerPromotion() {
   return (
     <section className="w-full bg-white overflow-hidden">
-      {/* 
-        Link component-এর মাধ্যমে /shop?sub=Lips এ রিডাইরেক্ট করা হচ্ছে।
-        অর্থাৎ কেউ এই ব্যানারে ক্লিক করলেই সরাসরি Lips প্রোডাক্ট দেখতে পাবে।
-      */}
+      
       <Link to="/shop?sub=Lips" className="block relative group w-full cursor-pointer">
         
         <motion.div
@@ -15,7 +12,7 @@ export default function BannerPromotion() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative w-full h-[300px] md:h-[450px] lg:h-[550px] overflow-hidden"
+          className="relative w-full h-[300px] md:h-[550px] lg:h-[650px] overflow-hidden"
         >
           {/* আপনার জেনারেট করা সলিড পিংক ব্যানার ছবিটি এখানে ব্যবহার করুন */}
           <img 
