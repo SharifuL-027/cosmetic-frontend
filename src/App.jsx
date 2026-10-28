@@ -4,7 +4,14 @@ import { ReactLenis } from 'lenis/react';
 import 'lenis/dist/lenis.css';
 function App() {
   return (
-    <ReactLenis root options={{ lerp: 0.08, duration: 1.5, smoothWheel: true }}>
+    <ReactLenis
+  root
+  options={{
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  }}
+>
       <RouterProvider router={router} />
     </ReactLenis>
   );
