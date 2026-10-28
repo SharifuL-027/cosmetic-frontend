@@ -12,7 +12,7 @@ export default function BannerPromotion() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative w-full h-[300px] md:h-[550px] lg:h-[650px] overflow-hidden"
+          className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden"
         >
           {/* আপনার জেনারেট করা সলিড পিংক ব্যানার ছবিটি এখানে ব্যবহার করুন */}
           <img 

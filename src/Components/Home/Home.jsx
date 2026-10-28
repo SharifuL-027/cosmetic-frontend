@@ -15,8 +15,8 @@ export default function Home() {
       <BannerPromotion/>
       <CategoryShowcase/>
       <TrendingMarquee/>
-      <FoundationBanner/>
       <ShopTheLook/>
+      <FoundationBanner/>
       <ReviewSection/>
     </div>
   );
