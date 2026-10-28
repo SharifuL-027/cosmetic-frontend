@@ -5,12 +5,12 @@ export default function ShopTheLook() {
   const campaigns = [
     {
       id: 1,
-      title: "GLOWING BASE ROUTINE",
+      title: "White Birch Beauty Eyeliner",
       subtitle: "Flawless base for all day wear",
-      modelImage: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1000",
+      modelImage: "https://res.cloudinary.com/wtbwxhmc/image/upload/v1793166069/image.png_17b1d13c_2K_v8zjwl.jpg",
       imagePosition: "left", 
       products: [
-        { _id: "65a1b2c3d4e5f6g7h8", name: "Lumina Glow Foundation", image: "https://res.cloudinary.com/wtbwxhmc/image/upload/v1793102259/image.png_20261027175701_ggcoov.jpg" },
+        { _id: "65a1b2c3d4e5f6g7h8", name: "Scandal Eyes", image: "https://res.cloudinary.com/wtbwxhmc/image/upload/v1793166532/image.png_3065c075_2K_twbbgn.jpg" },
         { _id: "65b2c3d4e5f6g7h8i9", name: "Radiant Setting Powder", image: "https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=500" }
       ]
     },
@@ -29,11 +29,11 @@ export default function ShopTheLook() {
 
   return (
     <section className="w-full bg-white py-20 border-t border-gray-100">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-32">
+      <div className="max-w-400 mx-auto px-4 sm:px-6 lg:px-8 space-y-32">
         
         {/* Header */}
         <div className="text-center">
-          <h2 className="text-3xl md:text-4xl font-black italic tracking-tighter text-black uppercase font-['Arial_Black',sans-serif]">
+          <h2 className="text-3xl md:text-4xl poppins-bold-italic tracking-tighter text-black uppercase">
             GET THE <span className="text-[#CB006B]">LOOK</span>
           </h2>
           <p className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-widest mt-4">
@@ -80,7 +80,7 @@ export default function ShopTheLook() {
 
               </div>
               
-              <h3 className="text-xl font-black uppercase tracking-widest text-black font-['Arial_Black',sans-serif]">
+              <h3 className="text-xl poppins-semibold-italic uppercase tracking-widest text-black ">
                 {campaign.title}
               </h3>
               <p className="text-[10px] text-gray-500 mt-2 font-bold tracking-widest uppercase">

@@ -3,6 +3,7 @@ import ReviewSection from '../Pages/ReviewSection';
 import ShopTheLook from '../Pages/ShopTheLook';
 import CategoryShowcase from './CategoryShowcase';
 import LuxuryBeauty from './LuxuryBeauty';
+import TrendingMarquee from './TrendingMarquee';
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
       <LuxuryBeauty/>|
       <CategoryShowcase/>
+      <TrendingMarquee/>
       <ShopTheLook/>
       <ReviewSection/>
     </div>
