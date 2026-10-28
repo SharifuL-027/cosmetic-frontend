@@ -30,6 +30,15 @@ const slides = [
     subtitle: "Nurture your natural beauty with our gentle formulas.",
     buttonText: "SHOP SKINCARE",
     link: "/shop?category=skincare"
+  },
+  {
+  id: 4,
+  image: "https://res.cloudinary.com/wtbwxhmc/image/upload/v1793186036/Gemini_Generated_Image_e6zt1ve6zt1ve6zt_1_tlhu60.jpg", 
+  preTitle: "FLAWLESS BASE",
+  title: "NATURAL FOUNDATION",
+  subtitle: "Discover your perfect match for lightweight, 24H long-lasting natural radiance.",
+  buttonText: "SHOP FOUNDATION",
+  link: "/shop?sub=Foundation",
   }
 ];
 
