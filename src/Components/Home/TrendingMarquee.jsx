@@ -13,7 +13,7 @@ export default function TrendingMarquee() {
 
   return (
     // ব্যাকগ্রাউন্ড হিসেবে একটি খুব সফট এবং প্রিমিয়াম পিংক কালার (#FDF2F8) ব্যবহার করা হয়েছে
-    <section className="relative w-full py-32 bg-[#FDF2F8] overflow-hidden flex flex-col items-center justify-center border-y border-pink-100">
+    <section className="relative w-full py-32 bg-[#e9a6cb] overflow-hidden flex flex-col items-center justify-center border-y border-pink-100">
       
       {/* 3D Section Header */}
       <div className="absolute top-16 z-30 text-center">
