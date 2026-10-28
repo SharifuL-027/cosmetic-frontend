@@ -15,11 +15,11 @@ export default function FoundationBanner() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative w-full h-[300px] md:h-[450px] lg:h-[550px] overflow-hidden"
+          className="relative w-full h-[300px] md:h-[550px] lg:h-[650px] overflow-hidden"
         >
           {/* Foundation Banner Image (Apnar image url/path ekhane boshaben) */}
           <img 
-            src="https://images.unsplash.com/photo-1631730359585-38a4935cbec4?q=80&w=1600" 
+            src="https://res.cloudinary.com/wtbwxhmc/image/upload/v1793182080/White_Birch_Beauty_Foundation_Luxe_Ad_f6pwur.png" 
             alt="Flawless Foundation Collection" 
             className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
           />
