@@ -2,7 +2,7 @@
 import { useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Trash2, Plus, Minus } from 'lucide-react';
-import { CartContext } from '../context/CartContext'; // Context ইমপোর্ট
+import { CartContext } from '../../context/CartContext'; 
 
 export default function CartDrawer({ isOpen, onClose }) {
   // Context থেকে ডেটা এবং ফাংশনগুলো নিয়ে আসা
