@@ -1,14 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, User, ShoppingBag, Menu, X, ChevronDown, UserCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CartContext } from '../../context/CartContext'; 
 
-export default function Navbar() {
+// onOpenCart প্রপস রিসিভ করা হলো
+export default function Navbar({ onOpenCart }) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState(null);
+
+  // Context থেকে কার্ট আইটেমস আনা হলো
+  const { cartItems } = useContext(CartContext); 
 
   // লোকাল স্টোরেজ থেকে ইউজারের ডাটা চেক করা
   useEffect(() => {
@@ -41,11 +46,11 @@ export default function Navbar() {
     };
     fetchCategories();
   }, []);
+
   return (
     <>
       <div className="w-full bg-[#f50083] text-white text-[11px] sm:text-xs font-bold py-2.5 flex justify-center items-center tracking-[0.2em] relative z-40">
         <span className="uppercase hover:underline cursor-pointer hidden sm:inline">Shop Our New Arrivals</span>
-        
       </div>
 
       <header className={`w-full sticky top-0 z-50 bg-white transition-all duration-300 ${isScrolled ? 'shadow-md' : 'border-b border-gray-100'}`}>
@@ -100,8 +105,6 @@ export default function Navbar() {
                           <div className="grid grid-cols-4 gap-8 px-8">
                             {category.subCategories.map((sub, idx) => (
                               <div key={idx} className="flex flex-col">
-                                
-                                {/* এই জায়গাটা আপডেট করা হয়েছে। এখন সাব-ক্যাটাগরির নামে ক্লিক করা যাবে */}
                                 <Link 
                                   to={`/shop?main=${category.name}&sub=${sub.name}`}
                                   className="text-sm font-black italic tracking-tight mb-4 uppercase poppins-semibold-italic border-b border-gray-100 pb-2 text-black hover:text-[#CB006B] transition-colors block w-full text-left"
@@ -137,29 +140,41 @@ export default function Navbar() {
                 <button className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
                   <Search className="w-5 h-5 stroke-[1.5]" />
                 </button>
-                {/* Dynamic User Icon Route */}
-<Link to={user ? (user.role === 'admin' ? '/admin/dashboard' : '/profile') : '/login'} className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
-  <User className="w-5 h-5 stroke-[1.5]" />
-</Link>
-                <button className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200 relative group">
+                <Link to={user ? (user.role === 'admin' ? '/admin/dashboard' : '/profile') : '/login'} className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200">
+                  <User className="w-5 h-5 stroke-[1.5]" />
+                </Link>
+                
+                {/* Desktop Cart Button (Updated) */}
+                <button 
+                  onClick={onOpenCart} 
+                  className="text-black hover:text-[#C27B8A] hover:scale-110 transition-all duration-200 relative group"
+                >
                   <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
-                  <span className="absolute -top-1.5 -right-2 bg-[#CB006B] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                    0
-                  </span>
+                  {cartItems?.length > 0 && (
+                    <span className="absolute -top-1.5 -right-2 bg-[#CB006B] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                      {cartItems.length}
+                    </span>
+                  )}
                 </button>
               </div>
-              
             </div>
 
             <div className="flex lg:hidden flex-1 justify-end items-center space-x-5">
               <button className="text-black hover:text-[#C27B8A] transition-colors">
                 <Search className="w-5 h-5 stroke-[1.5]" />
               </button>
-              <button className="text-black hover:text-[#C27B8A] transition-colors relative">
+              
+              {/* Mobile Cart Button (Updated) */}
+              <button 
+                onClick={onOpenCart} 
+                className="text-black hover:text-[#C27B8A] transition-colors relative"
+              >
                 <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
-                <span className="absolute -top-1 -right-1.5 bg-[#CB006B] text-white text-[9px] font-bold h-3.5 w-3.5 rounded-full flex items-center justify-center">
-                  0
-                </span>
+                {cartItems?.length > 0 && (
+                  <span className="absolute -top-1 -right-1.5 bg-[#CB006B] text-white text-[9px] font-bold h-3.5 w-3.5 rounded-full flex items-center justify-center">
+                    {cartItems.length}
+                  </span>
+                )}
               </button>
             </div>
 
@@ -182,7 +197,6 @@ export default function Navbar() {
                 </button>
               </div>
               
-              {/* Menu Links */}
               <div className="flex flex-col p-6 space-y-6 overflow-y-auto flex-1">
                 <Link to="/shop?badge=new" onClick={() => setMobileMenuOpen(false)} className="text-xl font-bold text-black border-b border-gray-100 pb-4 uppercase tracking-wider flex justify-between items-center hover:text-[#C27B8A] transition-colors">
                   New
@@ -204,7 +218,6 @@ export default function Navbar() {
                 </Link>
               </div>
 
-              {/* Mobile Menu Footer with User Info (এই অংশটি যোগ করা হয়েছে) */}
               <div className="p-6 bg-gray-50 mt-auto border-t border-gray-100">
                 <Link 
                   to={user ? (user.role === 'admin' ? '/admin/dashboard' : '/profile') : '/login'}

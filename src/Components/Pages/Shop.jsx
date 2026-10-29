@@ -1,19 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react'; // useContext যুক্ত করা হয়েছে
 import { useSearchParams, Link } from 'react-router-dom';
 import { ShoppingBag, Loader2, Filter } from 'lucide-react';
 import { motion } from 'framer-motion';
+
+// CartContext ইমপোর্ট করা হলো (আপনার ফাইলের পাথ অনুযায়ী ঠিক করে নেবেন)
+import { CartContext } from '../context/CartContext'; 
 
 export default function Shop() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // URL থেকে ফিল্টার প্যারামিটারগুলো ধরার জন্য (যেমন: ?main=Makeup)
+  // URL থেকে ফিল্টার প্যারামিটারগুলো ধরার জন্য
   const [searchParams] = useSearchParams();
   const mainCategory = searchParams.get('main');
   const subCategory = searchParams.get('sub');
   const subChildCategory = searchParams.get('subChild');
   const badge = searchParams.get('badge');
+
+  // Context থেকে addToCart ফাংশনটি নেওয়া হলো
+  const { addToCart } = useContext(CartContext);
 
   // ১. ডাটাবেস থেকে সব ডাটা ফেচ করা
   useEffect(() => {
@@ -36,7 +42,7 @@ export default function Shop() {
     fetchProducts();
   }, []);
 
-  // ২. URL পরিবর্তন হলে সেই অনুযায়ী ডাটা ফিল্টার করা
+  // ২. URL পরিবর্তন হলে সেই অনুযায়ী ডাটা ফিল্টার করা
   useEffect(() => {
     let result = products;
 
@@ -54,9 +60,9 @@ export default function Shop() {
     }
 
     setFilteredProducts(result);
-  }, [products, searchParams]); // searchParams দিলেই লিংকে ক্লিক করা মাত্র ডাটা আপডেট হবে
+  }, [products, searchParams]);
 
-  // পেজের হেডিং ডাইনামিক করা (যে ক্যাটাগরিতে ক্লিক করবে তার নাম দেখাবে)
+  // পেজের হেডিং ডাইনামিক করা
   const pageTitle = subChildCategory || subCategory || mainCategory || "All Products";
 
   return (
@@ -78,7 +84,7 @@ export default function Shop() {
             </p>
           </div>
           
-          {/* Filter Button (আপাতত শুধু ডিজাইন) */}
+          {/* Filter Button */}
           <button className="hidden md:flex items-center gap-2 border border-gray-300 px-5 py-2 hover:border-[#CB006B] hover:text-[#CB006B] transition-colors mt-4 md:mt-0">
             <Filter className="w-4 h-4" />
             <span className="text-xs font-bold uppercase tracking-widest">Filter</span>
@@ -91,7 +97,6 @@ export default function Shop() {
             <Loader2 className="w-10 h-10 animate-spin text-[#CB006B]" />
           </div>
         ) : filteredProducts.length === 0 ? (
-          /* যদি কোনো ক্যাটাগরিতে প্রোডাক্ট না থাকে */
           <div className="text-center py-20 flex flex-col items-center">
             <h2 className="text-2xl font-bold text-gray-400 uppercase tracking-widest">No products found</h2>
             <p className="text-gray-400 text-sm mt-2">Try checking another category</p>
@@ -100,7 +105,6 @@ export default function Shop() {
             </Link>
           </div>
         ) : (
-          /* প্রোডাক্ট গ্রিড */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {filteredProducts.map((product, index) => (
               <motion.div
@@ -127,9 +131,12 @@ export default function Shop() {
                     </div>
                   )}
 
-                  {/* Quick Add Button */}
+                  {/* Quick Add Button - এখানে onClick ফাংশন যুক্ত করা হয়েছে */}
                   <div className="absolute bottom-0 left-0 w-full p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out">
-                    <button className="w-full bg-black/90 hover:bg-[#CB006B] text-white py-3.5 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 backdrop-blur-sm transition-colors">
+                    <button 
+                      onClick={() => addToCart(product)}
+                      className="w-full bg-black/90 hover:bg-[#CB006B] text-white py-3.5 text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2 backdrop-blur-sm transition-colors"
+                    >
                       <ShoppingBag className="w-4 h-4" />
                       Add to Bag
                     </button>
@@ -142,7 +149,7 @@ export default function Shop() {
                     {product.name}
                   </Link>
                   <span className="text-sm font-bold text-gray-500 mt-1.5">
-                    £{product.price.toFixed(2)}
+                    ৳{product.price}
                   </span>
                 </div>
               </motion.div>
