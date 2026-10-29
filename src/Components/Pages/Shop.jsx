@@ -2,9 +2,7 @@ import { useState, useEffect, useContext } from 'react'; // useContext যুক
 import { useSearchParams, Link } from 'react-router-dom';
 import { ShoppingBag, Loader2, Filter } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-// CartContext ইমপোর্ট করা হলো (আপনার ফাইলের পাথ অনুযায়ী ঠিক করে নেবেন)
-import { CartContext } from '../context/CartContext'; 
+import { CartContext } from '../../context/CartContext'; 
 
 export default function Shop() {
   const [products, setProducts] = useState([]);
