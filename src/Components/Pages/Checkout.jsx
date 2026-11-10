@@ -155,15 +155,15 @@ export default function Checkout() {
         </div>
 
         {/* Right Side: Order Summary */}
-        <div className="w-full lg:w-[400px]">
+        <div className="w-full lg:w-100">
           <div className="bg-white p-8 border border-gray-100 shadow-sm sticky top-28">
             <h2 className="text-xl poppins-bold uppercase tracking-widest border-b border-gray-100 pb-4 mb-6">
               Order Summary
             </h2>
             
-            <div className="space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar pr-2 mb-6">
+            <div className="space-y-4 max-h-75 overflow-y-auto custom-scrollbar pr-2 mb-6">
               {cartItems.length === 0 ? (
-                <p className="text-sm text-gray-400 italic">Your cart is empty.</p>
+                <p className="text-sm text-gray-600 poppins-bold">Your cart is empty.</p>
               ) : (
                 cartItems.map((item, index) => (
                   <div key={index} className="flex gap-4 items-center">
@@ -172,7 +172,7 @@ export default function Checkout() {
                       <h4 className="text-xs font-bold uppercase tracking-widest line-clamp-1">{item.name}</h4>
                       <p className="text-[11px] text-gray-500 mt-1">Qty: {item.quantity}</p>
                     </div>
-                    <span className="text-sm font-bold">৳{item.price * item.quantity}</span>
+                    <span className="text-sm poppins-bold">৳{item.price * item.quantity}</span>
                   </div>
                 ))
               )}
@@ -180,16 +180,16 @@ export default function Checkout() {
 
             <div className="border-t border-gray-100 pt-4 space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500 font-bold uppercase tracking-widest">Subtotal</span>
-                <span className="font-bold">৳{cartTotal}</span>
+                <span className="text-gray-500 poppins-bold uppercase tracking-widest">Subtotal</span>
+                <span className="poppins-bold">৳{cartTotal}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500 font-bold uppercase tracking-widest">Shipping</span>
-                <span className="font-bold">Free</span>
+                <span className="poppins-bold">Free</span>
               </div>
               <div className="flex justify-between items-center border-t border-gray-200 pt-4 mt-2">
-                <span className="text-lg font-bold uppercase tracking-widest">Total</span>
-                <span className="text-xl font-bold text-[#CB006B]">৳{cartTotal}</span>
+                <span className="text-lg poppins-bold uppercase tracking-widest">Total</span>
+                <span className="text-xl poppins-bold text-[#CB006B]">৳{cartTotal}</span>
               </div>
             </div>
             

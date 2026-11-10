@@ -100,7 +100,7 @@ export default function Navbar({ onOpenCart }) {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 15 }}
                           transition={{ duration: 0.2, ease: "easeOut" }}
-                          className="absolute top-full left-1/2 -translate-x-1/2 w-[800px] bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-t-[3px] border-[#CB006B] py-10 z-50"
+                          className="absolute top-full left-1/2 -translate-x-1/2 w-200 bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] border-t-[3px] border-[#CB006B] py-10 z-50"
                         >
                           <div className="grid grid-cols-4 gap-8 px-8">
                             {category.subCategories.map((sub, idx) => (
