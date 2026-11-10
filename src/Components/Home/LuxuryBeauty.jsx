@@ -84,7 +84,7 @@ export default function LuxuryBeauty() {
                 className="group flex flex-col cursor-pointer"
               >
                 {/* Tall Image Container for Fashion/Beauty Aesthetic */}
-                <div className="relative w-full aspect-[3/4] bg-[#F9F9F9] overflow-hidden mb-6">
+                <div className="relative w-full aspect-3/4 bg-[#F9F9F9] overflow-hidden mb-6">
                   <Link to={`/product/${product._id}`} className="absolute inset-0 z-10"></Link>
                   
                   <img 
@@ -141,8 +141,8 @@ export default function LuxuryBeauty() {
               className="group relative text-[11px] font-bold uppercase tracking-[0.2em] text-black pb-2"
             >
               Discover The Full Collection
-              <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black origin-left transform scale-x-100 group-hover:scale-x-0 transition-transform duration-300"></span>
-              <span className="absolute bottom-0 right-0 w-full h-[1px] bg-[#CB006B] origin-right transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-full h-px bg-black origin-left transform scale-x-100 group-hover:scale-x-0 transition-transform duration-300"></span>
+              <span className="absolute bottom-0 right-0 w-full h-px bg-[#CB006B] origin-right transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
             </Link>
           </motion.div>
         )}

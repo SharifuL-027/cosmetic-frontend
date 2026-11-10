@@ -12,6 +12,7 @@ import AddProduct from '../Admin/AddProduct';
 import AdminCategory from '../Admin/AdminCategory';
 import Profile from '../Pages/Profile';
 import UserRoute from './UserRoute';
+import Checkout from '../Pages/Checkout';
 
 export const router = createBrowserRouter([
   
@@ -21,6 +22,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'shop', element: <Shop /> },
+      { path: 'checkout', element: <Checkout /> }
     ],
   },
   { 

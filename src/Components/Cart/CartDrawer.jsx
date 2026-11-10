@@ -1,5 +1,6 @@
 // src/components/CartDrawer.jsx
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Trash2, Plus, Minus } from 'lucide-react';
 import { CartContext } from '../../context/CartContext'; 
@@ -114,14 +115,18 @@ export default function CartDrawer({ isOpen, onClose }) {
                 <span className="text-xl font-bold text-black">৳ {cartTotal}</span>
               </div>
               <p className="text-[10px] text-gray-500 mb-6 text-center">
-                Taxes and shipping calculated at checkout
+                 shipping calculated at checkout
               </p>
-              <button 
-                disabled={cartItems.length === 0}
-                className="w-full bg-black text-white py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#CB006B] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Proceed to Checkout
-              </button>
+
+
+{/* CartDrawer.jsx এর নিচের দিকে */}
+<Link 
+  to="/checkout"
+  onClick={onClose}
+  className={`w-full block text-center bg-black text-white py-4 text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#CB006B] transition-colors duration-300 ${cartItems.length === 0 ? 'opacity-50 pointer-events-none' : ''}`}
+>
+  Proceed to Checkout
+</Link>
             </div>
           </motion.div>
         </>
