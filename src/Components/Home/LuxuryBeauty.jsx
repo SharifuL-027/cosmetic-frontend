@@ -8,7 +8,7 @@ export default function LuxuryBeauty() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Context থেকে addToCart ফাংশনটি নেওয়া হলো
+  // Context থেকে addToCart ফাংশনটি নেওয়া হলো
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
@@ -21,9 +21,33 @@ export default function LuxuryBeauty() {
         }
 
         const data = await response.json();
-        // ঠিক ৪টি প্রোডাক্ট শো করার জন্য slice(0, 4) ব্যবহার করা হয়েছে
-        setProducts(data.slice(0, 4));
+        
+        // --- ডাইনামিক ফিল্টারিং লজিক (প্রতি ক্যাটাগরি থেকে ১টি করে প্রোডাক্ট) ---
+        const categoryMap = new Map();
+        
+        data.forEach(product => {
+          // আপনার ডাটাবেস অনুযায়ী category.main অথবা শুধু category হতে পারে
+          const categoryName = product.category?.main || product.category || 'Exclusive';
+          
+          // যদি এই ক্যাটাগরির কোনো প্রোডাক্ট আগে না নেওয়া হয়ে থাকে, তবেই যোগ করব
+          if (!categoryMap.has(categoryName)) {
+            categoryMap.set(categoryName, product);
+          }
+        });
+
+        // ম্যাপ থেকে প্রোডাক্টগুলো নিয়ে একটি অ্যারে তৈরি করা হলো
+        let curatedProducts = Array.from(categoryMap.values());
+
+        // যদি ক্যাটাগরি ৪টার কম থাকে (যেমন ২টা), তবে বাকি গ্যাপ পূরণ করার জন্য অন্য প্রোডাক্ট দেওয়া হবে
+        if (curatedProducts.length < 4) {
+          const remainingProducts = data.filter(p => !curatedProducts.some(cp => cp._id === p._id));
+          curatedProducts = [...curatedProducts, ...remainingProducts];
+        }
+
+        // ঠিক ৪টি প্রোডাক্ট সেট করা হলো
+        setProducts(curatedProducts.slice(0, 4));
         setLoading(false);
+
       } catch (error) {
         console.error('Error fetching products:', error);
         setLoading(false);
@@ -53,7 +77,6 @@ export default function LuxuryBeauty() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-3xl md:text-4xl poppins-bold-italic text-black tracking-tight uppercase mb-6"
-            
           >
             Luxury <span className=" text-[#CB006B]">Beauty</span>
           </motion.h2>
@@ -94,16 +117,16 @@ export default function LuxuryBeauty() {
                   />
 
                   {/* Subtle Dark Overlay on Hover */}
-                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
-                  {/* Floating Action Button (Shows on hover) - এখানে onClick ইভেন্ট যুক্ত করা হয়েছে */}
+                  {/* Floating Action Button (Shows on hover) */}
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] z-20 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                     <button 
                       onClick={(e) => {
                         e.stopPropagation(); // Link-এর ক্লিক ইভেন্ট আটকাতে
                         addToCart(product);
                       }}
-                      className="w-full bg-white text-black border border-transparent hover:border-black py-3.5 text-[10px] font-bold tracking-[0.2em] uppercase shadow-lg transition-all"
+                      className="w-full bg-black text-white border border-black hover:bg-white hover:text-black py-3.5 text-[10px] font-bold tracking-[0.2em] uppercase shadow-lg transition-colors duration-300"
                     >
                       Quick Shop
                     </button>
@@ -111,15 +134,22 @@ export default function LuxuryBeauty() {
                 </div>
 
                 {/* Left-aligned Minimalist Typography */}
-                <div className="flex flex-col px-1">
+                <div className="flex flex-col px-1 text-center items-center">
+                  {/* Category Name Tag */}
+                  <span className="text-[9px] font-bold tracking-[0.2em] text-gray-400 uppercase mb-2">
+                    {product.category?.main || product.category || "Exclusive"}
+                  </span>
+                  
                   <Link 
                     to={`/product/${product._id}`} 
-                    className="text-[11px] md:text-xs font-bold text-black hover:text-[#CB006B] transition-colors uppercase tracking-widest mb-1.5 line-clamp-1"
+                    className="text-[12px] md:text-[13px] font-bold text-black hover:text-[#CB006B] transition-colors uppercase tracking-widest mb-2 line-clamp-1"
                   >
                     {product.name}
                   </Link>
-                  <span className="text-[13px] text-gray-500">
-                    £{product.price.toFixed(2)}
+                  
+                  {/* Price in Taka */}
+                  <span className="text-[13px] font-medium text-gray-500">
+                    ৳ {product.price.toLocaleString('en-IN')}
                   </span>
                 </div>
               </motion.div>
