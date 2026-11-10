@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../../context/CartContext';
 
 export default function LuxuryBeauty() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Context থেকে addToCart ফাংশনটি নেওয়া হলো
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -17,7 +21,7 @@ export default function LuxuryBeauty() {
         }
 
         const data = await response.json();
-        // ঠিক ৪টি প্রোডাক্ট শো করার জন্য slice(0, 4) ব্যবহার করা হয়েছে
+        // ঠিক ৪টি প্রোডাক্ট শো করার জন্য slice(0, 4) ব্যবহার করা হয়েছে
         setProducts(data.slice(0, 4));
         setLoading(false);
       } catch (error) {
@@ -31,7 +35,7 @@ export default function LuxuryBeauty() {
 
   return (
     <section className="w-full bg-white py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-[1300px] mx-auto">
+      <div className="max-w-325 mx-auto">
         
         {/* Elegant Section Header */}
         <div className="flex flex-col items-center justify-center text-center mb-20">
@@ -92,9 +96,15 @@ export default function LuxuryBeauty() {
                   {/* Subtle Dark Overlay on Hover */}
                   <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
-                  {/* Floating Action Button (Shows on hover) */}
+                  {/* Floating Action Button (Shows on hover) - এখানে onClick ইভেন্ট যুক্ত করা হয়েছে */}
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] z-20 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
-                    <button className="w-full bg-white text-black border border-transparent hover:border-black py-3.5 text-[10px] font-bold tracking-[0.2em] uppercase shadow-lg transition-all">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation(); // Link-এর ক্লিক ইভেন্ট আটকাতে
+                        addToCart(product);
+                      }}
+                      className="w-full bg-white text-black border border-transparent hover:border-black py-3.5 text-[10px] font-bold tracking-[0.2em] uppercase shadow-lg transition-all"
+                    >
                       Quick Shop
                     </button>
                   </div>
