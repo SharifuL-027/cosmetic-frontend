@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   // ডাটাবেস থেকে প্রোডাক্ট ফেচ করা
@@ -26,10 +27,37 @@ export default function AdminProducts() {
     fetchProducts();
   }, []);
 
+  // প্রোডাক্ট ডিলিট করার ফাংশন
+  const handleDelete = async (id, name) => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete "${name}"?`);
+    if (!confirmDelete) return;
+
+    setDeletingId(id);
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const response = await fetch(`${apiUrl}/products/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete product');
+      }
+
+      // স্টেট থেকে ডিলিট হওয়া প্রোডাক্টটি সরিয়ে ফেলা
+      setProducts((prev) => prev.filter((item) => item._id !== id));
+    } catch (error) {
+      console.error('Delete Error:', error);
+      alert('Failed to delete product. Please try again.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   // সার্চ ফাংশনালিটি
-  const filteredProducts = products.filter(product => 
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    product.category?.main?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.category?.main?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -42,9 +70,9 @@ export default function AdminProducts() {
             Manage your store inventory
           </p>
         </div>
-        
-        <Link 
-          to="/admin/products/add" 
+
+        <Link
+          to="/admin/products/add"
           className="bg-black hover:bg-[#CB006B] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors"
         >
           <Plus className="w-4 h-4" /> Add New Product
@@ -55,9 +83,9 @@ export default function AdminProducts() {
       <div className="bg-white p-4 rounded-t-lg border-b border-gray-100 flex items-center gap-4">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input 
-            type="text" 
-            placeholder="Search products by name or category..." 
+          <input
+            type="text"
+            placeholder="Search products by name or category..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-200 text-sm focus:outline-none focus:border-[#CB006B] transition-colors"
@@ -92,17 +120,17 @@ export default function AdminProducts() {
               </tr>
             ) : (
               filteredProducts.map((product) => (
-                <motion.tr 
+                <motion.tr
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  key={product._id} 
+                  key={product._id}
                   className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
                 >
                   {/* Product Image & Name */}
                   <td className="p-4 flex items-center gap-4">
-                    <img 
-                      src={product.image} 
-                      alt={product.name} 
+                    <img
+                      src={product.image}
+                      alt={product.name}
                       className="w-12 h-12 object-cover bg-gray-100 border border-gray-200"
                     />
                     <div className="flex flex-col">
@@ -114,7 +142,7 @@ export default function AdminProducts() {
                       )}
                     </div>
                   </td>
-                  
+
                   {/* Category Structure */}
                   <td className="p-4">
                     <div className="flex flex-col">
@@ -129,7 +157,7 @@ export default function AdminProducts() {
 
                   {/* Price */}
                   <td className="p-4 text-xs font-bold text-gray-600">
-                    £{product.price.toFixed(2)}
+                    ৳{product.price.toLocaleString('en-IN')}
                   </td>
 
                   {/* Status */}
@@ -142,11 +170,24 @@ export default function AdminProducts() {
                   {/* Actions (Edit / Delete) */}
                   <td className="p-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <button className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                      <Link
+                        to={`/admin/products/edit/${product._id}`}
+                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                        title="Edit Product"
+                      >
                         <Edit className="w-4 h-4" />
-                      </button>
-                      <button className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors">
-                        <Trash2 className="w-4 h-4" />
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(product._id, product.name)}
+                        disabled={deletingId === product._id}
+                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                        title="Delete Product"
+                      >
+                        {deletingId === product._id ? (
+                          <Loader2 className="w-4 h-4 animate-spin text-red-600" />
+                        ) : (
+                          <Trash2 className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                   </td>

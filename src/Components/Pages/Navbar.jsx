@@ -66,9 +66,9 @@ export default function Navbar({ onOpenCart }) {
             <div className="flex-1 lg:flex-none flex justify-center lg:justify-start">
               <Link to="/" className="hover:scale-105 transition-transform duration-300 block">
                 <img 
-                  src="https://res.cloudinary.com/wtbwxhmc/image/upload/v1792236384/Elegant_WBB_Beauty_Emblem-removebg-preview_yul9xd.png" 
+                  src="https://res.cloudinary.com/wtbwxhmc/image/upload/v1794806098/Gemini_Generated_Image_sj045jsj045jsj04-removebg-preview_ybnkg5.png" 
                   alt="WBB Logo" 
-                  className="h-10 lg:h-20 w-auto" 
+                  className="h-10 lg:h-16 w-auto" 
                 />
               </Link>
             </div>

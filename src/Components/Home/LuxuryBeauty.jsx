@@ -85,7 +85,7 @@ export default function LuxuryBeauty() {
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="w-12 h-[1px] bg-black/20"
+            className="w-12 h-px bg-black/20"
           ></motion.div>
         </div>
 

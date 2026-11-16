@@ -6,13 +6,13 @@ const categories = [
     id: 1,
     title: "Face",
     query: "?sub=Face",
-    image: "https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=800",
+    image: "https://res.cloudinary.com/wtbwxhmc/image/upload/v1794812766/image.png_7f94d3a8_mo6bms.jpg",
   },
   {
     id: 2,
     title: "Lips",
     query: "?sub=Lips",
-    image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1626895872564-b691b6877b83?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ const categories = [
     id: 4,
     title: "Skincare",
     query: "?main=Skincare",
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800",
+    image: "https://plus.unsplash.com/premium_photo-1708271587288-0d8c58bda098?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
   }
 ];
 

@@ -54,7 +54,7 @@ export default function AdminLayout() {
           </div>
           
           {/* Nav Links (Dynamic Active State) */}
-          <nav className="px-4 py-6 space-y-2 overflow-y-auto">
+          <nav data-lenis-prevent className="px-4 py-6 space-y-2 overflow-y-auto">
             {navItems.map((item) => {
               // বর্তমান URL এর সাথে মেনুর URL মিলে গেলে active ধরবে
               const isActive = location.pathname === item.path;
@@ -63,7 +63,7 @@ export default function AdminLayout() {
                 <Link 
                   key={item.name}
                   to={item.path} 
-                  onClick={() => setIsMobileMenuOpen(false)} // মোবাইলে ক্লিক করলে মেনু বন্ধ হয়ে যাবে
+                  onClick={() => setIsMobileMenuOpen(false)} // মোবাইলে ক্লিক করলে মেনু বন্ধ হয়ে যাবে
                   className={`flex items-center gap-3 px-4 py-3 text-sm font-bold tracking-widest uppercase transition-colors rounded ${
                     isActive 
                       ? 'bg-[#CB006B] text-white' // Active হলে পিংক ব্যাকগ্রাউন্ড
@@ -118,7 +118,7 @@ export default function AdminLayout() {
         </header>
 
         {/* Dashboard Content gets rendered here */}
-        <div className="flex-1 overflow-auto p-4 sm:p-8 bg-[#F9F9F9]">
+        <div data-lenis-prevent className="flex-1 overflow-y-auto p-4 sm:p-8 bg-[#F9F9F9]">
           <Outlet />
         </div>
       </main>

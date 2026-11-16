@@ -13,6 +13,7 @@ import AdminCategory from '../Admin/AdminCategory';
 import Profile from '../Pages/Profile';
 import UserRoute from './UserRoute';
 import Checkout from '../Pages/Checkout';
+import EditProduct from '../Admin/EditProduct';
 
 export const router = createBrowserRouter([
   
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
           { path: 'products', element: <AdminProducts /> },
           { path: 'products/add', element: <AddProduct/> },
           { path: 'categories', element: <AdminCategory /> },
+          { path: 'products/edit/:id', element: <EditProduct /> },
           
         ],
       },
