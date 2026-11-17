@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 
 export const CartContext = createContext();
 
@@ -14,32 +14,34 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('wbb_cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // ১. কার্টে নতুন আইটেম যোগ করা
-  const addToCart = (product) => {
+  // ১. কার্টে নতুন আইটেম যোগ করা (ডিফল্ট quantity = 1, তবে ডিটেইলস পেজ থেকে বেশি দিলে সেটিও কাজ করবে)
+  const addToCart = (product, qty = 1) => {
+    const amountToAdd = Number(qty) || 1;
+
     setCartItems((prevItems) => {
-      const existingItem = prevItems.find(item => item._id === product._id);
+      const existingItem = prevItems.find((item) => item._id === product._id);
       if (existingItem) {
-        // আইটেম আগে থেকেই থাকলে শুধু quantity বাড়াবে
-        return prevItems.map(item =>
-          item._id === product._id 
-            ? { ...item, quantity: item.quantity + 1 } 
+        // আইটেম আগে থেকেই থাকলে quantity বাড়াবে
+        return prevItems.map((item) =>
+          item._id === product._id
+            ? { ...item, quantity: item.quantity + amountToAdd }
             : item
         );
       }
-      // নতুন আইটেম হলে quantity 1 দিয়ে যোগ করবে
-      return [...prevItems, { ...product, quantity: 1 }];
+      // নতুন আইটেম হলে সিলেক্ট করা quantity দিয়ে যোগ করবে
+      return [...prevItems, { ...product, quantity: amountToAdd }];
     });
   };
 
   // ২. কার্ট থেকে আইটেম রিমুভ করা
   const removeFromCart = (productId) => {
-    setCartItems((prevItems) => prevItems.filter(item => item._id !== productId));
+    setCartItems((prevItems) => prevItems.filter((item) => item._id !== productId));
   };
 
-  // ৩. Quantity কমানো বা বাড়ানো
+  // ৩. Quantity কমানো বা বাড়ানো
   const updateQuantity = (productId, type) => {
-    setCartItems((prevItems) => 
-      prevItems.map(item => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) => {
         if (item._id === productId) {
           if (type === 'increase') return { ...item, quantity: item.quantity + 1 };
           if (type === 'decrease' && item.quantity > 1) return { ...item, quantity: item.quantity - 1 };
@@ -50,7 +52,7 @@ export const CartProvider = ({ children }) => {
   };
 
   // ৪. টোটাল প্রাইস হিসাব করা
-  const cartTotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
     <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, cartTotal }}>
@@ -58,3 +60,6 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+// কাস্টম হুক এক্সপোর্ট (যাতে সব পেজে useCart() ব্যবহার করা যায়)
+export const useCart = () => useContext(CartContext);

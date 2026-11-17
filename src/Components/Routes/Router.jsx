@@ -14,6 +14,7 @@ import Profile from '../Pages/Profile';
 import UserRoute from './UserRoute';
 import Checkout from '../Pages/Checkout';
 import EditProduct from '../Admin/EditProduct';
+import ProductDetails from '../Pages/ProductDetails';
 
 export const router = createBrowserRouter([
   
@@ -23,7 +24,9 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'shop', element: <Shop /> },
-      { path: 'checkout', element: <Checkout /> }
+      { path: 'checkout', element: <Checkout /> },
+      { path: '/product/:id', element: <ProductDetails /> },
+      
     ],
   },
   { 
