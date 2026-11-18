@@ -19,7 +19,7 @@ export default function FoundationBanner() {
         >
           {/* Foundation Banner Image (Apnar image url/path ekhane boshaben) */}
           <img 
-            src="https://res.cloudinary.com/wtbwxhmc/image/upload/v1793182470/Gemini_Generated_Image_f5a2oef5a2oef5a2_dwdm2s.jpg" 
+            src="https://res.cloudinary.com/wtbwxhmc/image/upload/v1794985937/Gemini_Generated_Image_txzc72txzc72txzc_ool4nc.jpg" 
             alt="Flawless Foundation Collection" 
             className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
           />

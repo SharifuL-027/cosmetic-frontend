@@ -23,9 +23,8 @@ export default function LuxuryBeauty() {
 
         const data = await response.json();
 
-        // --- ডাইনামিক ফিল্টারিং লজিক (প্রতি ক্যাটাগরি থেকে ১টি করে প্রোডাক্ট) ---
+        // প্রতি ক্যাটাগরি থেকে প্রোডাক্ট আগে রেখে বাকিগুলো যোগ করা হচ্ছে
         const categoryMap = new Map();
-
         data.forEach((product) => {
           const categoryName = product.category?.main || product.category || 'Exclusive';
           if (!categoryMap.has(categoryName)) {
@@ -34,15 +33,13 @@ export default function LuxuryBeauty() {
         });
 
         let curatedProducts = Array.from(categoryMap.values());
+        const remainingProducts = data.filter(
+          (p) => !curatedProducts.some((cp) => cp._id === p._id)
+        );
+        curatedProducts = [...curatedProducts, ...remainingProducts];
 
-        if (curatedProducts.length < 4) {
-          const remainingProducts = data.filter(
-            (p) => !curatedProducts.some((cp) => cp._id === p._id)
-          );
-          curatedProducts = [...curatedProducts, ...remainingProducts];
-        }
-
-        setProducts(curatedProducts.slice(0, 4));
+        // লুপ স্মুথ রাখার জন্য পর্যাপ্ত প্রোডাক্ট নেওয়া হলো
+        setProducts(curatedProducts.slice(0, 10));
         setLoading(false);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -61,12 +58,38 @@ export default function LuxuryBeauty() {
     setTimeout(() => setAddedId(null), 1500);
   };
 
+  // কম প্রোডাক্ট থাকলেও স্ক্রিন জুড়ে সিমলেস লুপ রাখার জন্য অ্যারে পুনরাবৃত্তি করা হলো
+  const baseList =
+    products.length > 0 && products.length < 4
+      ? [...products, ...products, ...products]
+      : products;
+  const marqueeProducts = [...baseList, ...baseList];
+
   return (
-    <section className="w-full bg-white py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-325 mx-auto">
-        
+    <section className="w-full bg-white py-24 overflow-hidden">
+      {/* বাম থেকে ডানে চলমান অ্যানিমেশন স্টাইল ও হোভারে পজ (Pause) সুবিধা */}
+      <style>{`
+        @keyframes wbbMarqueeLeftToRight {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0%);
+          }
+        }
+        .wbb-ltr-track {
+          display: flex;
+          width: max-content;
+          animation: wbbMarqueeLeftToRight 35s linear infinite;
+        }
+        .wbb-ltr-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
+      <div className="max-w-325 mx-auto px-4 sm:px-6 lg:px-8">
         {/* Elegant Section Header */}
-        <div className="flex flex-col items-center justify-center text-center mb-20">
+        <div className="flex flex-col items-center justify-center text-center mb-16">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -92,25 +115,27 @@ export default function LuxuryBeauty() {
             className="w-12 h-px bg-black/20"
           ></motion.div>
         </div>
+      </div>
 
-        {/* Loading Spinner */}
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <Loader2 className="w-10 h-10 animate-spin text-[#CB006B]" />
-          </div>
-        ) : (
-          /* Square Product Grid */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-14">
-            {products.map((product, index) => {
+      {/* Loading Spinner */}
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <Loader2 className="w-10 h-10 animate-spin text-[#CB006B]" />
+        </div>
+      ) : (
+        /* Infinite Left-to-Right Auto-Scrolling Carousel */
+        <div className="relative w-full overflow-hidden py-2">
+          {/* দুই পাশে হালকা ফেড ইফেক্ট */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 sm:w-20 bg-linear-to-r from-white to-transparent z-20" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 sm:w-20 bg-linear-to-l from-white to-transparent z-20" />
+
+          <div className="wbb-ltr-track gap-6 sm:gap-8">
+            {marqueeProducts.map((product, index) => {
               const isAdded = addedId === product._id;
               return (
-                <motion.div
-                  key={product._id}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ delay: index * 0.1, duration: 0.7, ease: 'easeOut' }}
-                  className="group flex flex-col cursor-pointer"
+                <div
+                  key={`${product._id}-${index}`}
+                  className="group flex flex-col cursor-pointer w-60 sm:w-70 lg:w-75 shrink-0"
                 >
                   {/* Square Image Container */}
                   <div className="relative w-full aspect-square bg-[#F9F9F9] overflow-hidden mb-5 border border-gray-100">
@@ -163,32 +188,32 @@ export default function LuxuryBeauty() {
                       €{Number(product.price).toFixed(2)}
                     </span>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Minimalist View All Link */}
-        {!loading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="flex justify-center mt-20"
+      {/* Minimalist View All Link */}
+      {!loading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="flex justify-center mt-16 px-4"
+        >
+          <Link
+            to="/shop"
+            className="group relative text-[11px] font-bold uppercase tracking-[0.2em] text-black pb-2"
           >
-            <Link
-              to="/shop"
-              className="group relative text-[11px] font-bold uppercase tracking-[0.2em] text-black pb-2"
-            >
-              Discover The Full Collection
-              <span className="absolute bottom-0 left-0 w-full h-px bg-black origin-left transform scale-x-100 group-hover:scale-x-0 transition-transform duration-300"></span>
-              <span className="absolute bottom-0 right-0 w-full h-px bg-[#CB006B] origin-right transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-            </Link>
-          </motion.div>
-        )}
-      </div>
+            Discover The Full Collection
+            <span className="absolute bottom-0 left-0 w-full h-px bg-black origin-left transform scale-x-100 group-hover:scale-x-0 transition-transform duration-300"></span>
+            <span className="absolute bottom-0 right-0 w-full h-px bg-[#CB006B] origin-right transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+          </Link>
+        </motion.div>
+      )}
     </section>
   );
 }
