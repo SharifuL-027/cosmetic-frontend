@@ -60,7 +60,7 @@ export default function ShopTheLook() {
             }`}>
               
               {/* aspect-square (1:1) এবং rounded-3xl দিয়ে পারফেক্ট সাইজ করা হয়েছে */}
-              <div className="w-full max-w-[500px] aspect-square rounded-3xl overflow-hidden mb-6 relative group flex items-center justify-center cursor-pointer shadow-sm">
+              <div className="w-full max-w-125 aspect-square rounded-3xl overflow-hidden mb-6 relative group flex items-center justify-center cursor-pointer shadow-sm">
                 
                 <img 
                   src={campaign.modelImage} 
