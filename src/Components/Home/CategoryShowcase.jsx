@@ -7,6 +7,7 @@ const defaultCategories = [
     id: 1,
     title: 'Eyes',
     defaultQuery: '?sub=Eyes',
+    excludeMain: [],
     keywords: ['eye', 'eyes', 'eyeliner', 'eye liner', 'liner', 'mascara', 'eyeshadow', 'brow', 'kajal'],
     defaultImage: 'https://res.cloudinary.com/wtbwxhmc/image/upload/v1794812766/image.png_7f94d3a8_mo6bms.jpg',
   },
@@ -14,6 +15,7 @@ const defaultCategories = [
     id: 2,
     title: 'Lips',
     defaultQuery: '?sub=Lips',
+    excludeMain: [],
     keywords: ['lip', 'lips', 'lipstick', 'lip gloss', 'lip liner', 'lip balm', 'tint'],
     defaultImage: 'https://images.unsplash.com/photo-1626895872564-b691b6877b83?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
   },
@@ -21,6 +23,8 @@ const defaultCategories = [
     id: 3,
     title: 'Face',
     defaultQuery: '?sub=Face',
+    // Skincare-এর ভেতরের Face (যেমন: Face Roller) যেন মেকআপের Face কার্ডে না আসে
+    excludeMain: ['skincare', 'skin care'],
     keywords: ['face', 'foundation', 'concealer', 'blush', 'primer', 'powder', 'highlighter', 'contour'],
     defaultImage: 'https://res.cloudinary.com/wtbwxhmc/image/upload/v1793166532/image.png_3065c075_2K_twbbgn.jpg',
   },
@@ -28,7 +32,8 @@ const defaultCategories = [
     id: 4,
     title: 'Skincare',
     defaultQuery: '?main=Skincare',
-    keywords: ['skincare', 'skin care', 'serum', 'cleanser', 'moisturizer', 'toner', 'sunscreen', 'cream'],
+    excludeMain: [],
+    keywords: ['skincare', 'skin care', 'serum', 'cleanser', 'moisturizer', 'toner', 'sunscreen', 'roller', 'gua sha'],
     defaultImage: 'https://plus.unsplash.com/premium_photo-1708271587288-0d8c58bda098?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
   },
 ];
@@ -52,8 +57,17 @@ export default function CategoryShowcase() {
         const data = await response.json();
         const productsList = Array.isArray(data) ? data : data.products || [];
 
+        // একই প্রোডাক্ট যেন একাধিক কার্ডে ডুপ্লিকেট না হয় তা ট্র্যাক করার জন্য
+        const usedProductIds = new Set();
+
         const updatedCards = defaultCategories.map((cat) => {
           const matchedProduct = productsList.find((p) => {
+            if (usedProductIds.has(p._id)) return false;
+
+            const mainCat = (p.category?.main || '').toLowerCase().trim();
+            // যদি এই কার্ডের জন্য ওই Main Category নিষিদ্ধ (exclude) থাকে, তবে বাদ দেবে
+            if (cat.excludeMain.includes(mainCat)) return false;
+
             const catText =
               typeof p.category === 'object' && p.category !== null
                 ? Object.values(p.category).filter(Boolean).join(' ')
@@ -63,10 +77,15 @@ export default function CategoryShowcase() {
             return cat.keywords.some((kw) => searchableText.includes(kw));
           });
 
-          // ডাটাবেসে যে এক্সাক্ট ক্যাটাগরি নাম (Capital সহ) আছে, সেটি দিয়েই ডাইনামিক লিংক তৈরি হবে
+          if (matchedProduct?._id) {
+            usedProductIds.add(matchedProduct._id);
+          }
+
           let dynamicQuery = cat.defaultQuery;
           if (matchedProduct?.category) {
-            if (matchedProduct.category.sub) {
+            if (cat.title === 'Skincare' && matchedProduct.category.main) {
+              dynamicQuery = `?main=${encodeURIComponent(matchedProduct.category.main)}`;
+            } else if (matchedProduct.category.sub) {
               dynamicQuery = `?sub=${encodeURIComponent(matchedProduct.category.sub)}`;
             } else if (matchedProduct.category.main) {
               dynamicQuery = `?main=${encodeURIComponent(matchedProduct.category.main)}`;
@@ -104,7 +123,7 @@ export default function CategoryShowcase() {
           </motion.h2>
         </div>
 
-        {/* Categories Grid (Dynamic with Default Fallback) */}
+        {/* Categories Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {categoryCards.map((category, index) => (
             <motion.div
