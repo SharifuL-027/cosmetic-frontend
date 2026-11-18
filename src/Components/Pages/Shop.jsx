@@ -147,7 +147,7 @@ export default function Shop() {
                     {product.name}
                   </Link>
                   <span className="text-sm font-bold text-gray-500 mt-1.5">
-                    ৳{product.price}
+                    €{product.price}
                   </span>
                 </div>
               </motion.div>

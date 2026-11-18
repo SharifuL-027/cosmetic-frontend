@@ -225,7 +225,7 @@ export default function EditProduct() {
               />
             </div>
             <div>
-              <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-widest mb-2">Price (৳)</label>
+              <label className="block text-[11px] font-bold text-gray-700 uppercase tracking-widest mb-2">Price (€)</label>
               <input
                 type="number"
                 step="0.01"

@@ -157,7 +157,7 @@ export default function AdminProducts() {
 
                   {/* Price */}
                   <td className="p-4 text-xs font-bold text-gray-600">
-                    ৳{product.price.toLocaleString('en-IN')}
+                    €{product.price.toLocaleString('en-IN')}
                   </td>
 
                   {/* Status */}

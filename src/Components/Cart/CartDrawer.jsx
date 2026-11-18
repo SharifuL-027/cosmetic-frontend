@@ -100,7 +100,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                             <Plus className="w-3.5 h-3.5" />
                           </button>
                         </div>
-                        <span className="text-sm poppins-bold text-black">৳ {item.price * item.quantity}</span>
+                        <span className="text-sm poppins-bold text-black">€ {item.price * item.quantity}</span>
                       </div>
                     </div>
                   </div>
@@ -112,7 +112,7 @@ export default function CartDrawer({ isOpen, onClose }) {
             <div className="p-6 border-t border-gray-100 bg-gray-50/50">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-sm poppins-bold uppercase tracking-wider text-gray-600">Subtotal</span>
-                <span className="text-xl poppins-bold text-black">৳ {cartTotal}</span>
+                <span className="text-xl poppins-bold text-black">€ {cartTotal}</span>
               </div>
               <p className="text-[10px] poppins-medium text-gray-500 mb-6 text-center">
                  shipping calculated at checkout

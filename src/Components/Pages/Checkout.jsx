@@ -172,7 +172,7 @@ export default function Checkout() {
                       <h4 className="text-xs font-bold uppercase tracking-widest line-clamp-1">{item.name}</h4>
                       <p className="text-[11px] text-gray-500 mt-1">Qty: {item.quantity}</p>
                     </div>
-                    <span className="text-sm poppins-bold">৳{item.price * item.quantity}</span>
+                    <span className="text-sm poppins-bold">€{item.price * item.quantity}</span>
                   </div>
                 ))
               )}
@@ -181,7 +181,7 @@ export default function Checkout() {
             <div className="border-t border-gray-100 pt-4 space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500 poppins-bold uppercase tracking-widest">Subtotal</span>
-                <span className="poppins-bold">৳{cartTotal}</span>
+                <span className="poppins-bold">€{cartTotal}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500 font-bold uppercase tracking-widest">Shipping</span>
@@ -189,7 +189,7 @@ export default function Checkout() {
               </div>
               <div className="flex justify-between items-center border-t border-gray-200 pt-4 mt-2">
                 <span className="text-lg poppins-bold uppercase tracking-widest">Total</span>
-                <span className="text-xl poppins-bold text-[#CB006B]">৳{cartTotal}</span>
+                <span className="text-xl poppins-bold text-[#CB006B]">€{cartTotal}</span>
               </div>
             </div>
             
